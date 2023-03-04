@@ -1,3 +1,4 @@
+import bcrypt from "bcrypt";
 import User from "../models/user.js";
 
 export const list = async (req, res) => {
@@ -13,7 +14,8 @@ export const list = async (req, res) => {
 export const create = async (req, res) => {
 	try {
 		const { username, password } = req.body;
-		const hash = password;
+		const salt = await bcrypt.genSalt(10);
+		const hash = await bcrypt.hash(password, salt);
 		const user = await User.create({ username, password: hash });
 		res.status(201).json(user);
 	}
