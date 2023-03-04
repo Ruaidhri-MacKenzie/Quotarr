@@ -6,7 +6,7 @@ export const list = async (req, res) => {
 		res.status(200).json(quotes);
 	}
 	catch (error) {
-		res.status(500).json(error);
+		res.status(500).json({ error: error.message });
 	}
 };
 
@@ -17,7 +17,7 @@ export const create = async (req, res) => {
 		res.status(201).json(quote);
 	}
 	catch (error) {
-		res.status(500).json(error);
+		res.status(500).json({ error: error.message });
 	}
 };
 
@@ -28,7 +28,7 @@ export const read = async (req, res) => {
 		res.status(200).json(quote);
 	}
 	catch (error) {
-		res.status(500).json(error);
+		res.status(500).json({ error: error.message });
 	}
 };
 
@@ -39,7 +39,7 @@ export const update = async (req, res) => {
 		res.status(200).json(quote);
 	}
 	catch (error) {
-		res.status(500).json(error);
+		res.status(500).json({ error: error.message });
 	}
 };
 
@@ -50,6 +50,6 @@ export const remove = async (req, res) => {
 		res.status(200).json(success);
 	}
 	catch (error) {
-		res.status(500).json(error);
+		res.status(500).json({ error: error.message });
 	}
 };
