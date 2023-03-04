@@ -1,12 +1,5 @@
-import path from "path";
-import { fileURLToPath } from "url";
 import express from "express";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-const PUBLIC_PATH = `${__dirname}/public`;
-const PORT = 2000;
+import { PUBLIC_PATH, PORT } from "./config.js";
 
 // Create express app with HTTP server
 const app = express();
