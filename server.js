@@ -1,4 +1,6 @@
 import express from "express";
+import userRouter from "./routes/user.router.js";
+import quoteRouter from "./routes/quote.router.js";
 import { PUBLIC_PATH, PORT } from "./config.js";
 
 // Create express app with HTTP server
@@ -13,6 +15,8 @@ app.use(express.static(PUBLIC_PATH));
 
 // Routes
 app.get("/", (req, res) => res.sendFile(`${PUBLIC_PATH}/index.html`));
+app.use("/users", userRouter);
+app.use("/quotes", quoteRouter);
 
 // Page not found - standard redirect
 app.use((req, res) => res.redirect("/"));
