@@ -35,16 +35,16 @@ export const signIn = async (req, res) => {
 		const { username, password } = req.body;
 
 		// Get user record from database
-		const user = await User.findOne({ username }).exec();
+		const user = await User.findOne({ username }).select("_id username password quotes createTime").populate("quotes").exec();
 		if (!user) {
-			res.status(401).json({ error: "Authentication failed" });
+			res.status(401).json({ error: "Incorrect username or password" });
 			return;
 		}
 
 		// Check that the given password matches the stored hash
 		const match = await bcrypt.compare(password, user.password);
 		if (!match) {
-			res.status(401).json({ error: "Authentication failed" });
+			res.status(401).json({ error: "Incorrect username or password" });
 			return;
 		}
 
