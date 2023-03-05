@@ -57,7 +57,7 @@ export const updateUser = async (req, res) => {
 	try {
 		const id = req.params.id;
 		const data = req.body;
-		const user = await User.findOneAndUpdate({ _id: id}, {$set: data}).select(userSelectString).populate("quotes").exec();
+		const user = await User.findOneAndUpdate({ _id: id }, { $set: data }).select(userSelectString).populate("quotes").exec();
 		if (user) {
 			res.status(200).json({ user });
 		}

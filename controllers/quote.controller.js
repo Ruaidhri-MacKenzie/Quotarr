@@ -1,6 +1,6 @@
 import Quote from "../models/quote.js";
 
-const quoteSelectString = "_id tasks createTime";
+const quoteSelectString = "_id tasks fudgeFactor createTime";
 
 export const listQuotes = async (req, res) => {
 	try {
@@ -14,13 +14,14 @@ export const listQuotes = async (req, res) => {
 
 export const createQuote = async (req, res) => {
 	try {
-		const { tasks } = req.body;
+		const { tasks, fudgeFactor } = req.body;
 
 		// Create quote and extract data to plain object
-		const quote = await Quote.create({ tasks });
+		const quote = await Quote.create({ tasks, fudgeFactor });
 		const quoteData = {
 			_id: quote._id,
 			tasks: quote.tasks,
+			fudgeFactor: quote.fudgeFactor,
 			createTime: quote.createTime,
 		};
 
@@ -51,7 +52,7 @@ export const updateQuote = async (req, res) => {
 	try {
 		const id = req.params.id;
 		const data = req.body;
-		const quote = await Quote.findOneAndUpdate({ _id: id}, {$set: data}).select(quoteSelectString).populate("tasks").exec();
+		const quote = await Quote.findOneAndUpdate({ _id: id }, { $set: data }).select(quoteSelectString).populate("tasks").exec();
 		if (quote) {
 			res.status(200).json({ quote });
 		}
