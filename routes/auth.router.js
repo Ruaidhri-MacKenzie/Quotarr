@@ -1,10 +1,11 @@
 import express from "express";
-import { isAuth, isNotAuth } from "../middleware/auth.js";
-import * as controller from "../controllers/auth.controller.js";
+import { isAuth, isNotAuth, validateCredentials, checkUniqueUsername } from "../middleware/auth.js";
+import { signUp, signIn, signOut } from "../controllers/auth.controller.js";
 
 const router = express.Router();
 
-router.post("/", isNotAuth, controller.signIn);
-router.get("/", isAuth, controller.signOut);
+router.post("/signup", isNotAuth, validateCredentials, checkUniqueUsername, signUp);
+router.post("/signin", isNotAuth, validateCredentials, signIn);
+router.get("/", isAuth, signOut);
 
 export default router;

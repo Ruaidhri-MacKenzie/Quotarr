@@ -1,6 +1,6 @@
 import Quote from "../models/quote.js";
 
-export const list = async (req, res) => {
+export const listQuotes = async (req, res) => {
 	try {
 		const quotes = await Quote.find().exec();
 		res.status(200).json(quotes);
@@ -10,7 +10,7 @@ export const list = async (req, res) => {
 	}
 };
 
-export const create = async (req, res) => {
+export const createQuote = async (req, res) => {
 	try {
 		const data = req.body;
 		const quote = await Quote.create(data);
@@ -21,7 +21,7 @@ export const create = async (req, res) => {
 	}
 };
 
-export const read = async (req, res) => {
+export const readQuote = async (req, res) => {
 	try {
 		const id = req.params.id;
 		const quote = await Quote.findById(id).exec();
@@ -32,7 +32,7 @@ export const read = async (req, res) => {
 	}
 };
 
-export const update = async (req, res) => {
+export const updateQuote = async (req, res) => {
 	try {
 		const id = req.params.id;
 		const quote = await Quote.findOneAndUpdate({ _id: id}, {$set: data}).exec();
@@ -43,7 +43,7 @@ export const update = async (req, res) => {
 	}
 };
 
-export const remove = async (req, res) => {
+export const removeQuote = async (req, res) => {
 	try {
 		const id = req.params.id;
 		const success = await Quote.deleteOne({ _id: id }).exec();

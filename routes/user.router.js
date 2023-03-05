@@ -1,13 +1,13 @@
 import express from "express";
-import { isAuth, isNotAuth, isAdmin } from "../middleware/auth.js";
-import * as controller from "../controllers/user.controller.js";
+import { isAuth, isAdmin, isUserOwner, validateCredentials, checkUniqueUsername } from "../middleware/auth.js";
+import { listUsers, createUser, readUser, updateUser, removeUser } from "../controllers/user.controller.js";
 
 const router = express.Router();
 
-router.post("/", isNotAuth, controller.create);
-router.get("/", isAuth, isAdmin, controller.list);
-router.get("/:id", isAuth, isAdmin, controller.read);
-router.put("/:id", isAuth, isAdmin, controller.update);
-router.delete("/:id", isAuth, isAdmin, controller.remove);
+router.get("/", isAuth, isAdmin, listUsers);
+router.post("/", isAuth, isAdmin, validateCredentials, checkUniqueUsername, createUser);
+router.get("/:id", isAuth, isUserOwner, readUser);
+router.put("/:id", isAuth, isUserOwner, updateUser);
+router.delete("/:id", isAuth, isUserOwner, removeUser);
 
 export default router;

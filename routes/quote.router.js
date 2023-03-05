@@ -1,13 +1,13 @@
 import express from "express";
-import { isAuth } from "../middleware/auth.js";
-import * as controller from "../controllers/quote.controller.js";
+import { isAuth, isAdmin, isQuoteOwner } from "../middleware/auth.js";
+import { listQuotes, createQuote, readQuote, updateQuote, removeQuote } from "../controllers/quote.controller.js";
 
 const router = express.Router();
 
-router.post("/", isAuth, controller.create);
-router.get("/", isAuth, controller.list);
-router.get("/:id", isAuth, controller.read);
-router.put("/:id", isAuth, controller.update);
-router.delete("/:id", isAuth, controller.remove);
+router.get("/", isAuth, isAdmin, listQuotes);
+router.post("/", isAuth, createQuote);
+router.get("/:id", isAuth, isQuoteOwner, readQuote);
+router.put("/:id", isAuth, isQuoteOwner, updateQuote);
+router.delete("/:id", isAuth, isQuoteOwner, removeQuote);
 
 export default router;
