@@ -14,6 +14,7 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+// Make cookies sent in the request available as req.cookies
 app.use(cookieParser());
 
 // Serve static files
@@ -29,7 +30,14 @@ app.use("/quotes", quoteRouter);
 app.use((req, res) => res.redirect("/"));
 
 // Connect to database
-await mongoose.connect(MONGO_URI, { useNewUrlParser: true });
-
-// Start server listening for requests
-app.listen(PORT, () => console.log(`Server listening on port ${PORT}...`));
+mongoose.connect(MONGO_URI, { useNewUrlParser: true })
+.then(() => {
+	mongoose.connection.on("error", error => console.log(error));
+	console.log("Database connected.");
+	
+	// Start server listening for requests
+	app.listen(PORT, () => console.log(`Server listening on port ${PORT}...`));
+})
+.catch(error => {
+	console.log(error);
+});
