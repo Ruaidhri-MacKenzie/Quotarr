@@ -26,19 +26,26 @@ export const isAdmin = (req, res, next) => {
 	// TODO
 
 	// Check if user is an admin
-	if (true) next();
+	const admin = true;
+	if (admin) next();
 	else res.status(403).json({ error: "Authorisation failed" });
 };
 
 export const isUserOwner = (req, res, next) => {
+	// TODO
+
 	// Check param id matches the user id (or admin)
-	if (req.params.id === req.user._id) next();
+	const admin = true;
+	if (admin || req.params.id === req.user._id) next();
 	else res.status(403).json({ error: "Authorisation failed" });
 };
 
 export const isQuoteOwner = (req, res, next) => {
+	// TODO
+	
 	// Check param id is included in user quote ids (or admin)
-	if (req.user.quotes.some(quote => quote._id === req.params.id)) next();
+	const admin = true;
+	if (admin || req.user.quotes.some(quote => quote._id === req.params.id)) next();
 	else res.status(403).json({ error: "Authorisation failed" });
 };
 
