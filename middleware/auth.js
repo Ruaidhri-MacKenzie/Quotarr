@@ -1,12 +1,12 @@
 import jwt from "jsonwebtoken";
 import User from "../models/user.js";
-import { JWT_SECRET } from "../config.js";
+import { JWT_ACCESS_SECRET } from "../config.js";
 
 export const isAuth = (req, res, next) => {
 	try {
 		// Check if access token exists and it has not expired
-		const payload = jwt.verify(req.headers.authorization.split(" ")[1], JWT_SECRET);
-		req.user = payload.user;
+		const decoded = jwt.verify(req.headers.authorization.split(" ")[1], JWT_ACCESS_SECRET);
+		req.user = decoded.user;
 		next();
 	}
 	catch (error) {

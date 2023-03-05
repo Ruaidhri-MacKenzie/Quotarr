@@ -1,7 +1,8 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+
 import User from "../models/user.js";
-import { JWT_SECRET } from "../config.js";
+import { JWT_ACCESS_SECRET, JWT_REFRESH_SECRET } from "../config.js";
 
 export const signUp = async (req, res) => {
 	try {
@@ -20,10 +21,12 @@ export const signUp = async (req, res) => {
 			createTime: user.createTime,
 		};
 
-		// Generate a JWT for stateless authentication
-		const token = jwt.sign({ user: userData }, JWT_SECRET, { expiresIn: "1h" });
+		// Generate JWTs for stateless authentication
+		const accessToken = jwt.sign({ user: userData }, JWT_ACCESS_SECRET, { expiresIn: "5m" });
+		const refreshToken = jwt.sign({ user: userData }, JWT_REFRESH_SECRET, { expiresIn: "1h" });
 		
-		res.status(201).json({ user: userData, token });
+		res.cookie("jwt", refreshToken, { httpOnly: true, sameSite: "none", maxAge: 1000 * 60 * 60 * 1 });
+		res.status(201).json({ user: userData, accessToken });
 	}
 	catch (error) {
 		res.status(500).json({ error: error.message });
@@ -56,10 +59,12 @@ export const signIn = async (req, res) => {
 			createTime: user.createTime,
 		};
 		
-		// Generate a JWT for stateless authentication
-		const token = jwt.sign({ user: userData }, JWT_SECRET, { expiresIn: "1h" });
-
-		res.status(200).json({ user: userData, token });
+		// Generate JWTs for stateless authentication
+		const accessToken = jwt.sign({ user: userData }, JWT_ACCESS_SECRET, { expiresIn: "5m" });
+		const refreshToken = jwt.sign({ user: userData }, JWT_REFRESH_SECRET, { expiresIn: "1h" });
+		
+		res.cookie("jwt", refreshToken, { httpOnly: true, sameSite: "none", maxAge: 1000 * 60 * 60 * 1 });
+		res.status(200).json({ user: userData, accessToken });
 	}
 	catch (error) {
 		res.status(500).json({ error: error.message });
@@ -68,10 +73,31 @@ export const signIn = async (req, res) => {
 
 export const signOut = async (req, res) => {
 	try {
+		// TODO
+
 		// Blacklist JWT
-		res.status(200).json(null);
+		res.clearCookie("jwt", { httpOnly: true, sameSite: "none" });
+		res.status(200).json({ success: true });
 	}
 	catch (error) {
 		res.status(500).json({ error: error.message });
+	}
+};
+
+export const refreshAccessToken = async (req, res) => {
+	try {
+		const refreshToken = req.cookies?.jwt;
+		if (!refreshToken) {
+			res.status(401).json({ error: "Authentication failed" });
+			return;
+		}
+
+		const decoded = jwt.verify(refreshToken, JWT_REFRESH_SECRET);
+		const accessToken = jwt.sign({ user: decoded.user }, JWT_ACCESS_SECRET, { expiresIn: "5m" });
+		
+		res.status(200).json({ accessToken });
+	}
+	catch (error) {
+		res.status(401).json({ error: "Authentication failed" });
 	}
 };

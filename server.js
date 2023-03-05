@@ -1,5 +1,6 @@
 import express from "express";
 import mongoose from "mongoose";
+import cookieParser from "cookie-parser";
 
 import userRouter from "./routes/user.router.js";
 import authRouter from "./routes/auth.router.js";
@@ -12,6 +13,8 @@ const app = express();
 // Make JSON sent in the request body available as req.body
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+app.use(cookieParser());
 
 // Serve static files
 app.use(express.static(PUBLIC_PATH));
