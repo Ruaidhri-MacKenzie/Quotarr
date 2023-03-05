@@ -5,7 +5,7 @@ const quoteSelectString = "_id tasks createTime";
 export const listQuotes = async (req, res) => {
 	try {
 		const quotes = await Quote.find().select(quoteSelectString).populate("tasks").exec();
-		res.status(200).json(quotes);
+		res.status(200).json({ quotes });
 	}
 	catch (error) {
 		res.status(500).json({ error: error.message });
@@ -14,9 +14,17 @@ export const listQuotes = async (req, res) => {
 
 export const createQuote = async (req, res) => {
 	try {
-		const data = req.body;
-		const quote = await Quote.create(data);
-		res.status(201).json(quote);
+		const { tasks } = req.body;
+
+		// Create quote and extract data to plain object
+		const quote = await Quote.create({ tasks });
+		const quoteData = {
+			_id: quote._id,
+			tasks: quote.tasks,
+			createTime: quote.createTime,
+		};
+
+		res.status(201).json({ quote: quoteData });
 	}
 	catch (error) {
 		res.status(500).json({ error: error.message });
@@ -27,7 +35,12 @@ export const readQuote = async (req, res) => {
 	try {
 		const id = req.params.id;
 		const quote = await Quote.findById(id).select(quoteSelectString).populate("tasks").exec();
-		res.status(200).json(quote);
+		if (quote) {
+			res.status(200).json({ quote });
+		}
+		else {
+			res.status(404).json({ error: "Quote not found" });
+		}
 	}
 	catch (error) {
 		res.status(500).json({ error: error.message });
@@ -37,8 +50,14 @@ export const readQuote = async (req, res) => {
 export const updateQuote = async (req, res) => {
 	try {
 		const id = req.params.id;
+		const data = req.body;
 		const quote = await Quote.findOneAndUpdate({ _id: id}, {$set: data}).select(quoteSelectString).populate("tasks").exec();
-		res.status(200).json(quote);
+		if (quote) {
+			res.status(200).json({ quote });
+		}
+		else {
+			res.status(404).json({ error: "Quote not found" });
+		}
 	}
 	catch (error) {
 		res.status(500).json({ error: error.message });
