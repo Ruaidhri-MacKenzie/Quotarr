@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import User from "../models/user.js";
 import { JWT_SECRET } from "../config.js";
 
 export const isAuth = (req, res, next) => {
