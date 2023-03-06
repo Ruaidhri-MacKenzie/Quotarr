@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 import User from "../models/user.js";
 
-const userSelectString = "_id username quotes createTime";
+const userSelectString = "_id username admin quotes createTime";
 
 export const listUsers = async (req, res) => {
 	try {
@@ -26,6 +26,7 @@ export const createUser = async (req, res) => {
 		const userData = {
 			_id: user._id,
 			username: user.username,
+			admin: user.admin,
 			quotes: user.quotes,
 			createTime: user.createTime,
 		};
@@ -57,6 +58,11 @@ export const updateUser = async (req, res) => {
 	try {
 		const id = req.params.id;
 		const data = req.body;
+		if (data.admin) {
+			res.status(403).json({ error: "Cannot change admin status" });
+			return;
+		}
+
 		const user = await User.findOneAndUpdate({ _id: id }, { $set: data }).select(userSelectString).populate("quotes").exec();
 		if (user) {
 			res.status(200).json({ user });

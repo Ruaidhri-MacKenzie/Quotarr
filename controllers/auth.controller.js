@@ -17,6 +17,7 @@ export const signUp = async (req, res) => {
 		const userData = {
 			_id: user._id,
 			username: user.username,
+			admin: user.admin,
 			quotes: user.quotes,
 			createTime: user.createTime,
 		};
@@ -38,7 +39,7 @@ export const signIn = async (req, res) => {
 		const { username, password } = req.body;
 
 		// Get user record from database
-		const user = await User.findOne({ username }).select("_id username password quotes createTime").populate("quotes").exec();
+		const user = await User.findOne({ username }).select("_id username password admin quotes createTime").populate("quotes").exec();
 		if (!user) {
 			res.status(401).json({ error: "Incorrect username or password" });
 			return;
@@ -55,6 +56,7 @@ export const signIn = async (req, res) => {
 		const userData = {
 			_id: user._id,
 			username: user.username,
+			admin: user.admin,
 			quotes: user.quotes,
 			createTime: user.createTime,
 		};

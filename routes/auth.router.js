@@ -1,12 +1,12 @@
 import express from "express";
-import { isAuth, isNotAuth, validateCredentials, checkUniqueUsername } from "../middleware/auth.js";
+import { validateCredentials, checkUniqueUsername } from "../middleware/auth.js";
 import { signUp, signIn, signOut, refreshAccessToken } from "../controllers/auth.controller.js";
 
 const router = express.Router();
 
-router.post("/signup", isNotAuth, validateCredentials, checkUniqueUsername, signUp);
-router.post("/signin", isNotAuth, validateCredentials, signIn);
-router.get("/signout", isAuth, signOut);
-router.get("/", isNotAuth, refreshAccessToken);
+router.post("/signup", validateCredentials, checkUniqueUsername, signUp);
+router.post("/signin", validateCredentials, signIn);
+router.get("/signout", signOut);
+router.get("/", refreshAccessToken);
 
 export default router;

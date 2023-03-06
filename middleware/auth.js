@@ -14,38 +14,21 @@ export const isAuth = (req, res, next) => {
 	}
 };
 
-export const isNotAuth = (req, res, next) => {
-	// TODO
-
-	// Check if no access token exists or if it has expired
-	if (!req.headers.authorization) next();
-	else res.status(403).json({ error: "Authorisation failed" });
-};
-
 export const isAdmin = (req, res, next) => {
-	// TODO
-
 	// Check if user is an admin
-	const admin = true;
-	if (admin) next();
+	if (req.user.admin) next();
 	else res.status(403).json({ error: "Authorisation failed" });
 };
 
 export const isUserOwner = (req, res, next) => {
-	// TODO
-
 	// Check param id matches the user id (or admin)
-	const admin = true;
-	if (admin || req.params.id === req.user._id) next();
+	if (req.user.admin || req.params.id === req.user._id) next();
 	else res.status(403).json({ error: "Authorisation failed" });
 };
 
 export const isQuoteOwner = (req, res, next) => {
-	// TODO
-	
 	// Check param id is included in user quote ids (or admin)
-	const admin = true;
-	if (admin || req.user.quotes.some(quote => quote._id === req.params.id)) next();
+	if (req.user.admin || req.user.quotes.some(quote => quote._id === req.params.id)) next();
 	else res.status(403).json({ error: "Authorisation failed" });
 };
 
