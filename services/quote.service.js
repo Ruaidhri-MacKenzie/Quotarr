@@ -1,26 +1,27 @@
-const juniorRate = 10;
-const seniorRate = 20;
-const expertRate = 30;
+import Paygrade from "../models/paygrade.js";
 
-export const calculateRawLabourCost = (task) => {
-	const juniorHours = task.juniorHours || 0;
-	const seniorHours = task.seniorHours || 0;
-	const expertHours = task.expertHours || 0;
-	task.labourCost = (juniorHours * juniorRate) + (seniorHours * seniorRate) + (expertHours * expertRate);
-	delete task.juniorHours;
-	delete task.seniorHours;
-	delete task.expertHours;
+export const calculateRawLabourCost = async (task) => {
+	const paygrades = await Paygrade.find().select("_id name rate").exec();
+	let labourCost = 0;
+	task.labour.forEach(line => {
+		const paygrade = paygrades.find(grade => grade.name === line.grade);
+		labourCost += line.hours * paygrade.rate;
+	});
+	task.labourCost = labourCost;
+	delete task.labour;
 	return task;
 };
 
-export const calculateLabourCost = (task) => {
-	const juniorHours = task.juniorHours || 0;
-	const seniorHours = task.seniorHours || 0;
-	const expertHours = task.expertHours || 0;
-	task.labourCost = (juniorHours * juniorRate * (Math.random() + 0.5)) + (seniorHours * seniorRate * (Math.random() + 0.5)) + (expertHours * expertRate * (Math.random() + 0.5));
-	delete task.juniorHours;
-	delete task.seniorHours;
-	delete task.expertHours;
+export const calculateLabourCost = async (task) => {
+	const paygrades = await Paygrade.find().select("_id name rate").exec();
+	let labourCost = 0;
+	task.labour.forEach(line => {
+		const paygrade = paygrades.find(grade => grade.name === line.grade);
+		const fudgeFactor = Math.random() + 0.5;
+		labourCost += line.hours * paygrade.rate * fudgeFactor;
+	});
+	task.labourCost = labourCost;
+	delete task.labour;
 	return task;
 };
 

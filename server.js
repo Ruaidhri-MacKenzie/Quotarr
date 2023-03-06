@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 import userRouter from "./routes/user.router.js";
 import authRouter from "./routes/auth.router.js";
 import quoteRouter from "./routes/quote.router.js";
+import paygradeRouter from "./routes/paygrade.router.js";
 import { PUBLIC_PATH, PORT, MONGO_URI } from "./config.js";
 
 // Create express app with HTTP server
@@ -22,12 +23,13 @@ app.use(express.static(PUBLIC_PATH));
 
 // Routes
 app.get("/", (req, res) => res.sendFile(`${PUBLIC_PATH}/index.html`));
-app.use("/users", userRouter);
 app.use("/auth", authRouter);
+app.use("/users", userRouter);
 app.use("/quotes", quoteRouter);
+app.use("/paygrades", paygradeRouter);
 
-// Page not found - standard redirect
-app.use((req, res) => res.redirect("/"));
+// Resource not found - 404
+app.use((req, res) => res.status(404).json({ error: "Unknown resource" }));
 
 // Connect to database
 mongoose.connect(MONGO_URI, { useNewUrlParser: true })
