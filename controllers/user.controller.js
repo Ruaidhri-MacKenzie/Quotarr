@@ -9,7 +9,8 @@ export const listUsers = async (req, res) => {
 		res.status(200).json({ users });
 	}
 	catch (error) {
-		res.status(500).json({ error: error.message });
+		console.log(error);
+		res.status(500).json({ error: "Server error. Please contact administrator." });
 	}
 };
 
@@ -34,7 +35,8 @@ export const createUser = async (req, res) => {
 		res.status(201).json({ user: userData });
 	}
 	catch (error) {
-		res.status(500).json({ error: error.message });
+		console.log(error);
+		res.status(500).json({ error: "Server error. Please contact administrator." });
 	}
 };
 
@@ -50,7 +52,8 @@ export const readUser = async (req, res) => {
 		}
 	}
 	catch (error) {
-		res.status(500).json({ error: error.message });
+		console.log(error);
+		res.status(500).json({ error: "Server error. Please contact administrator." });
 	}
 };
 
@@ -72,7 +75,8 @@ export const updateUser = async (req, res) => {
 		}
 	}
 	catch (error) {
-		res.status(500).json({ error: error.message });
+		console.log(error);
+		res.status(500).json({ error: "Server error. Please contact administrator." });
 	}
 };
 
@@ -88,6 +92,7 @@ export const removeUser = async (req, res) => {
 		}
 	}
 	catch (error) {
-		res.status(500).json({ error: error.message });
+		console.log(error);
+		res.status(500).json({ error: "Server error. Please contact administrator." });
 	}
 };

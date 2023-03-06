@@ -30,7 +30,8 @@ export const signUp = async (req, res) => {
 		res.status(201).json({ user: userData, accessToken });
 	}
 	catch (error) {
-		res.status(500).json({ error: error.message });
+		console.log(error);
+		res.status(500).json({ error: "Server error. Please contact administrator." });
 	}
 };
 
@@ -69,7 +70,8 @@ export const signIn = async (req, res) => {
 		res.status(200).json({ user: userData, accessToken });
 	}
 	catch (error) {
-		res.status(500).json({ error: error.message });
+		console.log(error);
+		res.status(500).json({ error: "Server error. Please contact administrator." });
 	}
 };
 
@@ -82,7 +84,8 @@ export const signOut = async (req, res) => {
 		res.status(200).json({ success: true });
 	}
 	catch (error) {
-		res.status(500).json({ error: error.message });
+		console.log(error);
+		res.status(500).json({ error: "Server error. Please contact administrator." });
 	}
 };
 

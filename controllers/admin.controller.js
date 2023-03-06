@@ -19,6 +19,7 @@ export const getRawQuote = async (req, res) => {
 		}
 	}
 	catch (error) {
-		res.status(500).json({ error: error.message });
+		console.log(error);
+		res.status(500).json({ error: "Server error. Please contact administrator." });
 	}
 };

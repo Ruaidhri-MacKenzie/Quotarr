@@ -8,7 +8,8 @@ export const listQuotes = async (req, res) => {
 		res.status(200).json({ quotes });
 	}
 	catch (error) {
-		res.status(500).json({ error: error.message });
+		console.log(error);
+		res.status(500).json({ error: "Server error. Please contact administrator." });
 	}
 };
 
@@ -27,7 +28,8 @@ export const createQuote = async (req, res) => {
 		res.status(201).json({ quote: quoteData });
 	}
 	catch (error) {
-		res.status(500).json({ error: error.message });
+		console.log(error);
+		res.status(500).json({ error: "Server error. Please contact administrator." });
 	}
 };
 
@@ -45,7 +47,8 @@ export const readQuote = async (req, res) => {
 		}
 	}
 	catch (error) {
-		res.status(500).json({ error: error.message });
+		console.log(error);
+		res.status(500).json({ error: "Server error. Please contact administrator." });
 	}
 };
 
@@ -64,7 +67,8 @@ export const updateQuote = async (req, res) => {
 		}
 	}
 	catch (error) {
-		res.status(500).json({ error: error.message });
+		console.log(error);
+		res.status(500).json({ error: "Server error. Please contact administrator." });
 	}
 };
 
@@ -80,6 +84,7 @@ export const removeQuote = async (req, res) => {
 		}
 	}
 	catch (error) {
-		res.status(500).json({ error: error.message });
+		console.log(error);
+		res.status(500).json({ error: "Server error. Please contact administrator." });
 	}
 };
