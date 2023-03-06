@@ -1,32 +1,23 @@
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
-
 import User from "../models/user.js";
-import { JWT_ACCESS_SECRET, JWT_REFRESH_SECRET } from "../config.js";
+import { extractUserData, hashPassword } from "../services/user.service.js";
+import { cookieName, cookieOptions, comparePassword, createAccessToken, createRefreshToken, decodeRefreshToken } from "../services/auth.service.js";
 
 export const signUp = async (req, res) => {
 	try {
 		const {username, password } = req.body;
 
 		// Hash password for storage in database
-		const salt = await bcrypt.genSalt(10);
-		const hash = await bcrypt.hash(password, salt);
+		const hash = await hashPassword(password);
 		
 		// Create user and extract data to plain object
 		const user = await User.create({ username, password: hash });
-		const userData = {
-			_id: user._id,
-			username: user.username,
-			admin: user.admin,
-			quotes: user.quotes,
-			createTime: user.createTime,
-		};
+		const userData = extractUserData(user);
 
 		// Generate JWTs for stateless authentication
-		const accessToken = jwt.sign({ user: userData }, JWT_ACCESS_SECRET, { expiresIn: "5m" });
-		const refreshToken = jwt.sign({ user: userData }, JWT_REFRESH_SECRET, { expiresIn: "1h" });
+		const accessToken = createAccessToken(userData);
+		const refreshToken = createRefreshToken(userData);
 		
-		res.cookie("jwt", refreshToken, { httpOnly: true, sameSite: "none", maxAge: 1000 * 60 * 60 * 1 });
+		res.cookie(cookieName, refreshToken, cookieOptions);
 		res.status(201).json({ user: userData, accessToken });
 	}
 	catch (error) {
@@ -47,26 +38,20 @@ export const signIn = async (req, res) => {
 		}
 
 		// Check that the given password matches the stored hash
-		const match = await bcrypt.compare(password, user.password);
+		const match = await comparePassword(password, user.password);
 		if (!match) {
 			res.status(401).json({ error: "Incorrect username or password" });
 			return;
 		}
 
 		// Extract user data to plain object
-		const userData = {
-			_id: user._id,
-			username: user.username,
-			admin: user.admin,
-			quotes: user.quotes,
-			createTime: user.createTime,
-		};
+		const userData = extractUserData(user);
 		
 		// Generate JWTs for stateless authentication
-		const accessToken = jwt.sign({ user: userData }, JWT_ACCESS_SECRET, { expiresIn: "5m" });
-		const refreshToken = jwt.sign({ user: userData }, JWT_REFRESH_SECRET, { expiresIn: "1h" });
+		const accessToken = createAccessToken(userData);
+		const refreshToken = createRefreshToken(userData);
 		
-		res.cookie("jwt", refreshToken, { httpOnly: true, sameSite: "none", maxAge: 1000 * 60 * 60 * 1 });
+		res.cookie(cookieName, refreshToken, cookieOptions);
 		res.status(200).json({ user: userData, accessToken });
 	}
 	catch (error) {
@@ -80,7 +65,7 @@ export const signOut = async (req, res) => {
 		// TODO
 
 		// Blacklist JWT
-		res.clearCookie("jwt", { httpOnly: true, sameSite: "none" });
+		res.clearCookie(cookieName, cookieOptions);
 		res.status(200).json({ success: true });
 	}
 	catch (error) {
@@ -91,14 +76,14 @@ export const signOut = async (req, res) => {
 
 export const refreshAccessToken = async (req, res) => {
 	try {
-		const refreshToken = req.cookies?.jwt;
+		const refreshToken = req.cookies[cookieName];
 		if (!refreshToken) {
 			res.status(401).json({ error: "Authentication failed" });
 			return;
 		}
 
-		const decoded = jwt.verify(refreshToken, JWT_REFRESH_SECRET);
-		const accessToken = jwt.sign({ user: decoded.user }, JWT_ACCESS_SECRET, { expiresIn: "5m" });
+		const decoded = decodeRefreshToken(refreshToken);
+		const accessToken = createAccessToken(decoded.user);
 		
 		res.status(200).json({ accessToken });
 	}
