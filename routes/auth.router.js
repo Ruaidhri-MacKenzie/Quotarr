@@ -1,5 +1,5 @@
 import express from "express";
-import { validateCredentials, checkUniqueUsername } from "../middleware/auth.js";
+import { validateCredentials, checkUniqueUsername } from "../middleware/validate.js";
 import { signUp, signIn, signOut, refreshAccessToken } from "../controllers/auth.controller.js";
 
 const router = express.Router();
