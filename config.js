@@ -6,7 +6,7 @@ dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-export const PUBLIC_PATH = `${__dirname}/public`;
+export const PUBLIC_PATH = `${__dirname}/client/build`;
 
 export const PORT = process.env.PORT;
 
