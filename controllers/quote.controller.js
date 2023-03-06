@@ -1,10 +1,10 @@
 import Quote from "../models/quote.js";
 
-const quoteSelectString = "_id tasks fudgeFactor createTime";
+const quoteSelectString = "_id tasks createTime";
 
 export const listQuotes = async (req, res) => {
 	try {
-		const quotes = await Quote.find().select(quoteSelectString).populate("tasks").exec();
+		const quotes = await Quote.find().select(quoteSelectString).exec();
 		res.status(200).json({ quotes });
 	}
 	catch (error) {
@@ -14,14 +14,13 @@ export const listQuotes = async (req, res) => {
 
 export const createQuote = async (req, res) => {
 	try {
-		const { tasks, fudgeFactor } = req.body;
+		const { tasks } = req.body;
 
 		// Create quote and extract data to plain object
-		const quote = await Quote.create({ tasks, fudgeFactor });
+		const quote = await Quote.create({ tasks });
 		const quoteData = {
 			_id: quote._id,
 			tasks: quote.tasks,
-			fudgeFactor: quote.fudgeFactor,
 			createTime: quote.createTime,
 		};
 
@@ -35,8 +34,10 @@ export const createQuote = async (req, res) => {
 export const readQuote = async (req, res) => {
 	try {
 		const id = req.params.id;
-		const quote = await Quote.findById(id).select(quoteSelectString).populate("tasks").exec();
+		const quote = await Quote.findById(id).select(quoteSelectString).exec();
 		if (quote) {
+			// TODO
+			// Calculate labour costs with fudge factor
 			res.status(200).json({ quote });
 		}
 		else {
@@ -52,8 +53,10 @@ export const updateQuote = async (req, res) => {
 	try {
 		const id = req.params.id;
 		const data = req.body;
-		const quote = await Quote.findOneAndUpdate({ _id: id }, { $set: data }).select(quoteSelectString).populate("tasks").exec();
+		const quote = await Quote.findOneAndUpdate({ _id: id }, { $set: data }).select(quoteSelectString).exec();
 		if (quote) {
+			// TODO
+			// Calculate labour costs with fudge factor
 			res.status(200).json({ quote });
 		}
 		else {
