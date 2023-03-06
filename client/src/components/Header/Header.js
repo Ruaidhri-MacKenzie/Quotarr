@@ -3,8 +3,8 @@ import "./Header.css";
 
 const Header = () => {
 	return (
-		<header>
-			<h1>Quotarr</h1>
+		<header className="header">
+			<h1 className="header__title">Quotarr</h1>
 		</header>
 	);
 };
