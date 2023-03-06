@@ -1,22 +1,22 @@
 import Quote from "../models/quote.js";
+import { calculateRawLabourCost, extractQuoteData } from "../services/quote.service.js";
 
 export const setPayGrades = (req, res) => {
 	// TODO
 	res.status(200).json({ success: true });
 };
 
-export const getRawQuote = async (req, res) => {
+export const createRawQuote = async (req, res) => {
 	try {
-		const id = req.params.id;
-		const quote = await Quote.findById(id).select("_id tasks createTime").populate("tasks").exec();
-		if (quote) {
-			// TODO
-			// Calculate labour costs without fudge factor
-			res.status(200).json({ quote });
-		}
-		else {
-			res.status(404).json({ error: "Quote not found" });
-		}
+		const { tasks } = req.body;
+		// Calculate labour costs without fudge factor
+		tasks.forEach(calculateRawLabourCost);
+
+		// Create quote and extract data to plain object
+		const quote = await Quote.create({ tasks });
+		const quoteData = extractQuoteData(quote);
+
+		res.status(201).json({ quote: quoteData });
 	}
 	catch (error) {
 		console.log(error);

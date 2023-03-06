@@ -1,9 +1,9 @@
 import express from "express";
-import { setPayGrades, getRawQuote } from "../controllers/admin.controller.js";
+import { setPayGrades, createRawQuote } from "../controllers/admin.controller.js";
 
 const router = express.Router();
 
 router.post("/pay", setPayGrades);
-router.get("/quote/:id", getRawQuote);
+router.post("/quote", createRawQuote);
 
 export default router;

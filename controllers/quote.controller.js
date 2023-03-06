@@ -1,4 +1,5 @@
 import Quote from "../models/quote.js";
+import { calculateLabourCost, extractQuoteData } from "../services/quote.service.js";
 
 const quoteSelectString = "_id tasks createTime";
 
@@ -16,14 +17,12 @@ export const listQuotes = async (req, res) => {
 export const createQuote = async (req, res) => {
 	try {
 		const { tasks } = req.body;
-
+		// Calculate labour costs with fudge factor
+		tasks.forEach(calculateLabourCost);
+		
 		// Create quote and extract data to plain object
 		const quote = await Quote.create({ tasks });
-		const quoteData = {
-			_id: quote._id,
-			tasks: quote.tasks,
-			createTime: quote.createTime,
-		};
+		const quoteData = extractQuoteData(quote);
 
 		res.status(201).json({ quote: quoteData });
 	}
@@ -38,8 +37,6 @@ export const readQuote = async (req, res) => {
 		const id = req.params.id;
 		const quote = await Quote.findById(id).select(quoteSelectString).exec();
 		if (quote) {
-			// TODO
-			// Calculate labour costs with fudge factor
 			res.status(200).json({ quote });
 		}
 		else {
@@ -56,10 +53,14 @@ export const updateQuote = async (req, res) => {
 	try {
 		const id = req.params.id;
 		const data = req.body;
+
+		// Calculate labour costs with fudge factor
+		if (data.tasks) {
+			data.tasks.forEach(calculateLabourCost);
+		}
+
 		const quote = await Quote.findOneAndUpdate({ _id: id }, { $set: data }).select(quoteSelectString).exec();
 		if (quote) {
-			// TODO
-			// Calculate labour costs with fudge factor
 			res.status(200).json({ quote });
 		}
 		else {
