@@ -1,6 +1,6 @@
 import User from "../models/user.js";
 import { extractUserData, hashPassword } from "../services/user.service.js";
-import { cookieName, cookieOptions, comparePassword, createAccessToken, createRefreshToken, decodeRefreshToken } from "../services/auth.service.js";
+import { cookieName, cookieOptions, comparePassword, createAccessToken, createRefreshToken, decodeRefreshToken, addToBlacklist } from "../services/auth.service.js";
 
 export const signUp = async (req, res) => {
 	try {
@@ -62,9 +62,10 @@ export const signIn = async (req, res) => {
 
 export const signOut = async (req, res) => {
 	try {
-		// TODO
-
 		// Blacklist JWT
+		const refreshToken = req.cookies[cookieName];
+		addToBlacklist(refreshToken);
+
 		res.clearCookie(cookieName, cookieOptions);
 		res.status(200).json({ success: true });
 	}

@@ -1,10 +1,23 @@
 import jwt from "jsonwebtoken";
+import { cookieName, isBlacklisted } from "../services/auth.service.js";
 import { JWT_ACCESS_SECRET } from "../config.js";
 
 export const isAuth = (req, res, next) => {
 	try {
-		// Check if access token exists and it has not expired
-		const decoded = jwt.verify(req.headers.authorization.split(" ")[1], JWT_ACCESS_SECRET);
+		// Check if refresh token exists or has been blacklisted
+		const refreshToken = req.cookies[cookieName];
+		if (!refreshToken) {
+			res.status(401).json({ error: "Authentication failed" });
+			return;
+		}
+		else if (isBlacklisted(refreshToken)) {
+			res.status(403).json({ error: "Authorisation failed" });
+			return;
+		}
+
+		// Check if access token exists and has not expired
+		const accessToken = req.headers.authorization.split(" ")[1];
+		const decoded = jwt.verify(accessToken, JWT_ACCESS_SECRET);
 		req.user = decoded.user;
 		next();
 	}

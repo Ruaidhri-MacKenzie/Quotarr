@@ -5,6 +5,20 @@ import { JWT_ACCESS_SECRET, JWT_REFRESH_SECRET } from "../config.js";
 export const cookieName = "jwt";
 export const cookieOptions = { httpOnly: true, sameSite: "none", maxAge: 1000 * 60 * 60 * 1 };
 
+let blacklist = [];
+
+export const addToBlacklist = (refreshToken) => {
+	blacklist.push(refreshToken);
+};
+
+export const isBlacklisted = (refreshToken) => {
+	return (blacklist.includes(refreshToken));
+};
+
+export const refreshBlacklist = () => {
+	blacklist = blacklist.filter(refreshToken => refreshToken.exp > Date.now());
+};
+
 export const createAccessToken = (user) => {
 	const accessToken = jwt.sign({ user }, JWT_ACCESS_SECRET, { expiresIn: "5m" });
 	return accessToken;
