@@ -6,7 +6,7 @@ const UserSchema = new mongoose.Schema({
   password: { type: String, required: true },
 	admin: { type: Boolean, default: false },
 	quotes: [{ type : mongoose.Schema.Types.ObjectId, ref: "Quote" }],
-	createTime: { type: Date, default: Date.now },
+	createTime: { type: Date, default: Date.now, immutable: true },
 });
 
 export default mongoose.model("User", UserSchema);
