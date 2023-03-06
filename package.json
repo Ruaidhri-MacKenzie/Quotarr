@@ -5,7 +5,11 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon server.js",
+		"server": "nodemon server.js",
+		"client": "npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+		"build": "npm run build --prefix client",
+		"prestart": "npm run build",
     "start": "node server.js"
   },
   "repository": {
@@ -27,6 +31,7 @@
     "mongoose": "^7.0.0"
   },
   "devDependencies": {
+    "concurrently": "^7.6.0",
     "nodemon": "^2.0.21"
   }
 }
