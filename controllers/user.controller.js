@@ -1,5 +1,5 @@
-import bcrypt from "bcrypt";
 import User from "../models/user.js";
+import { hashPassword, extractUserData } from "../services/user.service.js";
 
 const userSelectString = "_id username admin quotes createTime";
 
@@ -19,19 +19,12 @@ export const createUser = async (req, res) => {
 		const { username, password } = req.body;
 
 		// Hash password for storage in database
-		const salt = await bcrypt.genSalt(10);
-		const hash = await bcrypt.hash(password, salt);
+		const hash = await hashPassword(password);
 
 		// Create user and extract data to plain object
 		const user = await User.create({ username, password: hash });
-		const userData = {
-			_id: user._id,
-			username: user.username,
-			admin: user.admin,
-			quotes: user.quotes,
-			createTime: user.createTime,
-		};
-
+		const userData = extractUserData(user);
+		
 		res.status(201).json({ user: userData });
 	}
 	catch (error) {
