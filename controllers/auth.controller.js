@@ -28,10 +28,13 @@ export const signIn = (req, res, next) => {
 };
 
 export const signOut = (req, res, next) => {
-	req.logout();
-	req.session.destroy(err => {
-		if (err) return res.status(500).json({ error: "Server error. Please contact administrator." });
-		return res.status(200).clearCookie("sessionId", { path: "/" }).json({ message: "Signed out" });
+	req.logout((err) => {
+    if (err) { return next(err); }
+
+		req.session.destroy((err) => {
+			if (err) return res.status(500).json({ error: "Server error. Please contact administrator." });
+			return res.status(200).clearCookie("sessionId", { path: "/" }).json({ message: "Signed out" });
+		});
 	});
 };
 
