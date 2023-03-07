@@ -9,10 +9,20 @@ import "./App.css";
 const App = () => {
 	const [user, setUser] = useState(null);
 
-	const onSuccess = (result) => setUser(result.user);
-	const onError = (error) => console.log(error);
+	const signOut = () => {
+		httpGet(
+			"http://localhost:2000/auth/signout",
+			(result) => setUser(null),
+			(error) => console.log(error),
+		);
+	};
+
 	useEffect(() => {
-		httpGet("http://localhost:2000/auth", onSuccess, onError);
+		httpGet(
+			"http://localhost:2000/auth", 
+			(result) => setUser(result.user),
+			(error) => console.log(error),
+		);
 	}, []);
 	
 	const renderMainView = () => {
@@ -23,7 +33,7 @@ const App = () => {
 
 	return (
     <div className="App">
-			<Header title="Quotarr" />
+			<Header title="Quotarr" signOut={signOut} />
 			<main className="main">
 				{renderMainView()}
 			</main>
