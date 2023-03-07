@@ -4,6 +4,10 @@
 	box-sizing: border-box;
 }
 
+:root {
+	--clr-primary: hsl(296 57% 30%);
+}
+
 body {
 	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   -webkit-font-smoothing: antialiased;

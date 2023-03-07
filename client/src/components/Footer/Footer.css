@@ -1,5 +1,7 @@
 .footer {
 	padding: 0.5em;
+	background-color: var(--clr-primary);
+	color: hsl(0 0% 100% / 50%);
 }
 
 .footer__copyright {
