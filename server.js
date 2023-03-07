@@ -1,6 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
+import cors from "cors";
 
 import userRouter from "./routes/user.router.js";
 import authRouter from "./routes/auth.router.js";
@@ -20,6 +21,9 @@ app.use(cookieParser());
 
 // Serve static files
 app.use(express.static(PUBLIC_PATH));
+
+// Set CORS policy
+app.use(cors());
 
 // Routes
 app.get("/", (req, res) => res.sendFile(`${PUBLIC_PATH}/index.html`));
