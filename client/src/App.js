@@ -30,7 +30,7 @@ const App = () => {
 	
 	const renderMainView = () => {
 		return accessToken
-			? <Home user={user} accessToken={accessToken} setAccessToken={setAccessToken} />
+			? <Home user={user} />
 			: <Auth setUser={setUser} setAccessToken={setAccessToken} />;
 	};
 
