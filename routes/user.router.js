@@ -5,8 +5,8 @@ import { listUsers, createUser, readUser, updateUser, removeUser } from "../cont
 
 const router = express.Router();
 
-router.get("/", isAuth, isAdmin, listUsers);
-router.post("/", isAuth, isAdmin, validateCredentials, checkUniqueUsername, createUser);
+router.get("/", isAdmin, listUsers);
+router.post("/", isAdmin, validateCredentials, checkUniqueUsername, createUser);
 router.get("/:id", isAuth, isUserOwner, readUser);
 router.put("/:id", isAuth, isUserOwner, updateUser);
 router.delete("/:id", isAuth, isUserOwner, removeUser);

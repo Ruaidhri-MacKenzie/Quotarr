@@ -1,35 +1,20 @@
-import jwt from "jsonwebtoken";
-import { cookieName, isBlacklisted } from "../services/auth.service.js";
-import { JWT_ACCESS_SECRET } from "../config.js";
-
 export const isAuth = (req, res, next) => {
-	try {
-		// Check if refresh token exists or has been blacklisted
-		const refreshToken = req.cookies[cookieName];
-		if (!refreshToken) {
-			res.status(401).json({ error: "Authentication failed" });
-			return;
-		}
-		else if (isBlacklisted(refreshToken)) {
-			res.status(403).json({ error: "Authorisation failed" });
-			return;
-		}
+	// Check if user is authenticated
+	if (req.isAuthenticated()) next();
+	else res.status(401).json({ error: "Authentication failed" });
+};
 
-		// Check if access token exists and has not expired
-		const accessToken = req.headers.authorization.split(" ")[1];
-		const decoded = jwt.verify(accessToken, JWT_ACCESS_SECRET);
-		req.user = decoded.user;
-		next();
-	}
-	catch (error) {
-		res.status(401).json({ error: "Authentication failed" });
-	}
+export const isNotAuth = (req, res, next) => {
+	// Check if user is not authenticated
+	if (!req.isAuthenticated()) next();
+	else res.status(403).json({ error: "Authorisation failed" });
 };
 
 export const isAdmin = (req, res, next) => {
 	// Check if user is an admin
-	if (req.user.admin) next();
-	else res.status(403).json({ error: "Authorisation failed" });
+	if (!req.isAuthenticated()) res.status(401).json({ error: "Authentication failed" });
+	else if (req.user.admin) res.status(403).json({ error: "Authorisation failed" });
+	else next();
 };
 
 export const isUserOwner = (req, res, next) => {

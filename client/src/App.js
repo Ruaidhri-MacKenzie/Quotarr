@@ -3,35 +3,22 @@ import Header from "./components/Header/Header.js";
 import Footer from "./components/Footer/Footer.js";
 import Auth from "./pages/Auth/Auth.js";
 import Home from "./pages/Home/Home.js";
+import { httpGet } from "./utils/http.js";
 import "./App.css";
 
 const App = () => {
-	const [user, setUser] = useState({
-		_id: null,
-		username: "",
-		admin: false,
-		quotes: [],
-	});
-	const [accessToken, setAccessToken] = useState(null);
+	const [user, setUser] = useState(null);
 
+	const onSuccess = (result) => setUser(result.user);
+	const onError = (error) => console.log(error);
 	useEffect(() => {
-		fetch("http://localhost:2000/auth")
-		.then(response => response.json())
-		.then(result => {
-			if (result.error) {
-				console.log(result.error);
-			}
-			else {
-				setUser(result.user);
-				setAccessToken(result.accessToken);
-			}
-		});
+		httpGet("http://localhost:2000/auth", onSuccess, onError);
 	}, []);
 	
 	const renderMainView = () => {
-		return accessToken
+		return user
 			? <Home user={user} />
-			: <Auth setUser={setUser} setAccessToken={setAccessToken} />;
+			: <Auth setUser={setUser} />;
 	};
 
 	return (

@@ -1,13 +1,17 @@
 import express from "express";
 import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
+import expressSession from "express-session";
+import connectSession from "connect-mongodb-session";
+import passport from "passport";
 import cors from "cors";
 
-import userRouter from "./routes/user.router.js";
+import { localStrategy, serializeUser, deserializeUser } from "./middleware/passport.js";
 import authRouter from "./routes/auth.router.js";
+import userRouter from "./routes/user.router.js";
 import quoteRouter from "./routes/quote.router.js";
 import paygradeRouter from "./routes/paygrade.router.js";
-import { PUBLIC_PATH, PORT, MONGO_URI } from "./config.js";
+import { PUBLIC_PATH, PORT, MONGO_URI, MONGO_DB_NAME, SESSION_SECRET } from "./config.js";
 
 // Create express app with HTTP server
 const app = express();
@@ -23,7 +27,35 @@ app.use(cookieParser());
 app.use(express.static(PUBLIC_PATH));
 
 // Set CORS policy
-app.use(cors());
+app.use(cors({
+	origin: "http://localhost:3000",
+	credentials: true,
+}));
+
+// Create user sessions store
+const MongoDBStore = connectSession(expressSession);
+const store = new MongoDBStore({
+  uri: MONGO_URI,
+	databaseName: MONGO_DB_NAME,
+	collection: "sessions",
+});
+store.on("error", error => console.log(error));
+const session = expressSession({
+	name: "sessionId",
+	secret: SESSION_SECRET,
+	store: store,
+	resave: false,
+	saveUninitialized: false,
+	cookie: { httpOnly: true, secure: false, sameSite: "none", maxAge: 1000 * 60 * 60 * 24 },
+});
+app.use(session);
+
+// Authentication Strategy
+passport.use(localStrategy);
+passport.serializeUser(serializeUser);
+passport.deserializeUser(deserializeUser);
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Routes
 app.get("/", (req, res) => res.sendFile(`${PUBLIC_PATH}/index.html`));

@@ -15,5 +15,4 @@ export const MONGO_PASS = process.env.MONGO_PASS;
 export const MONGO_DB_NAME = process.env.MONGO_DB_NAME;
 export const MONGO_URI = `mongodb+srv://${MONGO_USER}:${MONGO_PASS}@cluster1.oaorkkq.mongodb.net/${MONGO_DB_NAME}?retryWrites=true&w=majority`;
 
-export const JWT_ACCESS_SECRET = process.env.JWT_ACCESS_SECRET;
-export const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET;
+export const SESSION_SECRET = process.env.SESSION_SECRET;

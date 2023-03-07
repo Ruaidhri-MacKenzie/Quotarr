@@ -2,15 +2,13 @@ import SignInForm from "../../components/SignInForm/SignInForm.js";
 import SignUpForm from "../../components/SignUpForm/SignUpForm.js";
 import "./Auth.css";
 
-const Auth = ({ setUser, setAccessToken }) => {
+const Auth = ({ setUser }) => {
 	const handleSignUp = (result) => {
 		setUser(result.user);
-		setAccessToken(result.accessToken);
 	};
 	
 	const handleSignIn = (result) => {
 		setUser(result.user);
-		setAccessToken(result.accessToken);
 	};
 
 	return (

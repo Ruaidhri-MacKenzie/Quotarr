@@ -1,94 +1,40 @@
+import passport from "passport";
 import User from "../models/user.js";
 import { extractUserData, hashPassword } from "../services/user.service.js";
-import { cookieName, cookieOptions, comparePassword, createAccessToken, createRefreshToken, decodeRefreshToken, addToBlacklist } from "../services/auth.service.js";
 
-export const signUp = async (req, res) => {
-	try {
-		const {username, password } = req.body;
-
-		// Hash password for storage in database
-		const hash = await hashPassword(password);
-		
-		// Create user and extract data to plain object
-		const user = await User.create({ username, password: hash });
+export const signUp = async (req, res, next) => {
+	const {username, password } = req.body;
+	const hash = await hashPassword(password);
+	const user = await User.create({ username, password: hash });
+	
+	req.login(user, (err) => {
+		if (err) return next(err);
 		const userData = extractUserData(user);
-
-		// Generate JWTs for stateless authentication
-		const accessToken = createAccessToken(userData);
-		const refreshToken = createRefreshToken(userData);
-		
-		res.cookie(cookieName, refreshToken, cookieOptions);
-		res.status(201).json({ user: userData, accessToken });
-	}
-	catch (error) {
-		console.log(error);
-		res.status(500).json({ error: "Server error. Please contact administrator." });
-	}
+		return res.status(201).json({ user: userData });
+	});
 };
 
-export const signIn = async (req, res) => {
-	try {
-		const { username, password } = req.body;
-
-		// Get user record from database
-		const user = await User.findOne({ username }).select("_id username password admin quotes createTime").populate("quotes").exec();
-		if (!user) {
-			res.status(401).json({ error: "Incorrect username or password" });
-			return;
-		}
-
-		// Check that the given password matches the stored hash
-		const match = await comparePassword(password, user.password);
-		if (!match) {
-			res.status(401).json({ error: "Incorrect username or password" });
-			return;
-		}
-
-		// Extract user data to plain object
-		const userData = extractUserData(user);
+export const signIn = (req, res, next) => {
+	passport.authenticate("local", (err, user, info) => {
+		if (err) return next(err);
+		if (!user) return res.redirect("/auth/failed/auth");
 		
-		// Generate JWTs for stateless authentication
-		const accessToken = createAccessToken(userData);
-		const refreshToken = createRefreshToken(userData);
-		
-		res.cookie(cookieName, refreshToken, cookieOptions);
-		res.status(200).json({ user: userData, accessToken });
-	}
-	catch (error) {
-		console.log(error);
-		res.status(500).json({ error: "Server error. Please contact administrator." });
-	}
+		req.login(user, async (err) => {
+			if (err) return next(err);			
+			const userData = extractUserData(user);
+			return res.status(200).json({ user: userData });
+		});
+	})(req, res, next);
 };
 
-export const signOut = async (req, res) => {
-	try {
-		// Blacklist JWT
-		const refreshToken = req.cookies[cookieName];
-		addToBlacklist(refreshToken);
-
-		res.clearCookie(cookieName, cookieOptions);
-		res.status(200).json({ success: true });
-	}
-	catch (error) {
-		console.log(error);
-		res.status(500).json({ error: "Server error. Please contact administrator." });
-	}
+export const signOut = (req, res, next) => {
+	req.logout();
+	req.session.destroy(err => {
+		if (err) return res.status(500).json({ error: "Server error. Please contact administrator." });
+		return res.status(200).clearCookie("sessionId", { path: "/" }).json({ message: "Signed out" });
+	});
 };
 
-export const refreshAccessToken = async (req, res) => {
-	try {
-		const refreshToken = req.cookies[cookieName];
-		if (!refreshToken) {
-			res.status(401).json({ error: "Authentication failed" });
-			return;
-		}
-
-		const decoded = decodeRefreshToken(refreshToken);
-		const accessToken = createAccessToken(decoded.user);
-		
-		res.status(200).json({ accessToken });
-	}
-	catch (error) {
-		res.status(401).json({ error: "Authentication failed" });
-	}
+export const cookieSignIn = (req, res) => {
+	res.status(200).json({ user: req.user });
 };

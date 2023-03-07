@@ -4,11 +4,11 @@ import { listQuotes, createQuote, readQuote, updateQuote, removeQuote, createRaw
 
 const router = express.Router();
 
-router.get("/", isAuth, isAdmin, listQuotes);
+router.get("/", isAdmin, listQuotes);
 router.post("/", isAuth, createQuote);
 router.get("/:id", isAuth, isQuoteOwner, readQuote);
 router.put("/:id", isAuth, isQuoteOwner, updateQuote);
 router.delete("/:id", isAuth, isQuoteOwner, removeQuote);
-router.post("/raw", isAuth, isAdmin, createRawQuote);
+router.post("/raw", isAdmin, createRawQuote);
 
 export default router;

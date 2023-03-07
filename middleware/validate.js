@@ -2,6 +2,7 @@ import User from "../models/user.js";
 
 export const validateCredentials = (req, res, next) => {
 	// Validate sign up and sign in details
+	req.body.username = req.body.username?.trim();
 	const { username, password } = req.body;
 
 	if (!username || username.length < 3) {

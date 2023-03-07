@@ -1,5 +1,5 @@
 export const httpGet = (url, onSuccess, onError) => {
-	fetch(url)
+	fetch(url, { credentials: "include" })
 	.then(response => response.json())
 	.then(result => {
 		if (result.error) {
@@ -33,6 +33,7 @@ export const httpPut = (url, data, onSuccess, onError) => {
 	fetch(url, {
 		method: "PUT",
 		headers: { "Content-Type": "application/json" },
+		credentials: "include",
 		body: JSON.stringify(data),
 	})
 	.then(response => response.json())
@@ -47,7 +48,7 @@ export const httpPut = (url, data, onSuccess, onError) => {
 };
 
 export const httpDelete = (url, onSuccess, onError) => {
-	fetch(url, { method: "DELETE" })
+	fetch(url, { method: "DELETE", credentials: "include" })
 	.then(response => response.json())
 	.then(result => {
 		if (result.error) {

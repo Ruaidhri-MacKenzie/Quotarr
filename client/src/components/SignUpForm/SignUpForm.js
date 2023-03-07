@@ -24,17 +24,17 @@ const SignUpForm = ({ onSuccess }) => {
 			
 			<label className="sign-up__username">
 				<p className="sign-up__username-label">Username</p>
-				<input className="sign-up__username-input" type="text" name="username" value={state.username} onChange={handleInputChange} />
+				<input className="sign-up__username-input" type="text" name="username" value={state.username || ""} onChange={handleInputChange} />
 			</label>
 
 			<label className="sign-up__password">
 				<p className="sign-up__password-label">Password</p>
-				<input className="sign-up__password-input" type="password" name="password" value={state.password} onChange={handleInputChange} />
+				<input className="sign-up__password-input" type="password" name="password" value={state.password || ""} onChange={handleInputChange} />
 			</label>
 
 			<label className="sign-up__confirm">
 				<p className="sign-up__confirm-label">Confirm Password</p>
-				<input className="sign-up__confirm-input" type="password" name="confirm" value={state.confirm} onChange={handleInputChange} />
+				<input className="sign-up__confirm-input" type="password" name="confirm" value={state.confirm || ""} onChange={handleInputChange} />
 			</label>
 
 			<button className="sign-up__submit" type="submit">Submit</button>

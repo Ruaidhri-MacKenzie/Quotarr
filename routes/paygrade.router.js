@@ -4,11 +4,11 @@ import { listPaygrades, createPaygrade, readPaygrade, updatePaygrade, removePayg
 
 const router = express.Router();
 
-router.get("/", isAuth, isAdmin, listPaygrades);
-router.post("/", isAuth, isAdmin, createPaygrade);
-router.get("/:id", isAuth, isAdmin, readPaygrade);
-router.put("/:id", isAuth, isAdmin, updatePaygrade);
-router.delete("/:id", isAuth, isAdmin, removePaygrade);
+router.get("/", isAdmin, listPaygrades);
+router.post("/", isAdmin, createPaygrade);
+router.get("/:id", isAdmin, readPaygrade);
+router.put("/:id", isAdmin, updatePaygrade);
+router.delete("/:id", isAdmin, removePaygrade);
 router.get("/names", isAuth, listPaygradeNames);
 
 export default router;
