@@ -15,31 +15,23 @@ const App = () => {
 	const [accessToken, setAccessToken] = useState(null);
 
 	useEffect(() => {
-		const result = {
-			user: {
-				_id: "1234567890",
-				username: "Tester",
-				admin: false,
-				quotes: [
-					{ name: "test1", tasks: [] },
-					{ name: "test2", tasks: [] },
-				],
-			},
-			accessToken: null,
-		};
-		if (result.error) {
-			console.log(result.error);
-		}
-		else {
-			setUser(result.user);
-			setAccessToken(result.accessToken);
-		}
+		fetch("http://localhost:2000/auth")
+		.then(response => response.json())
+		.then(result => {
+			if (result.error) {
+				console.log(result.error);
+			}
+			else {
+				setUser(result.user);
+				setAccessToken(result.accessToken);
+			}
+		});
 	}, []);
 	
 	const renderMainView = () => {
 		return accessToken
 			? <Home user={user} accessToken={accessToken} setAccessToken={setAccessToken} />
-			: <Auth />;
+			: <Auth setUser={setUser} setAccessToken={setAccessToken} />;
 	};
 
 	return (

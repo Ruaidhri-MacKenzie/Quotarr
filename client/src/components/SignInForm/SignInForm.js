@@ -1,11 +1,8 @@
 import { useState } from "react";
 import "./SignInForm.css";
 
-const SignInForm = () => {
-	const [state, setState] = useState({
-		username: "",
-		password: "",
-	});
+const SignInForm = ({ onSuccess, onError }) => {
+	const [state, setState] = useState({ username: "", password: "" });
 
 	const handleInputChange = (event) => {
 		const { name, value } = event.target;
@@ -14,7 +11,24 @@ const SignInForm = () => {
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
-		console.log("Sign In");
+
+		fetch("http://localhost:2000/auth/signin", {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({
+				username: state.username,
+				password: state.password,
+			}),
+		})
+		.then(response => response.json())
+		.then(result => {
+			if (result.error) {
+				onError(result.error);
+			}
+			else {
+				onSuccess(result);
+			}
+		});
 	};
 
 	return (
