@@ -1,0 +1,42 @@
+.sign-in {
+	display: grid;
+	align-content: start;
+	gap: 1em;
+	padding: 1em;
+	box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+.sign-in__title {
+	text-align: center;
+}
+
+.sign-in__username {
+
+}
+
+.sign-in__username-label {
+
+}
+
+.sign-in__username-input {
+	padding: 0.25em;
+}
+
+.sign-in__password {
+	
+}
+
+.sign-in__password-label {
+	
+}
+
+.sign-in__password-input {
+	padding: 0.25em;
+}
+
+.sign-in__submit {
+	width: fit-content;
+	justify-self: center;
+	padding: 0.5em 1em;
+	cursor: pointer;
+}

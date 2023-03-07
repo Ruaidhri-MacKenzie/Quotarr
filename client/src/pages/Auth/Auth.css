@@ -1,0 +1,16 @@
+.auth {
+	display: grid;
+	justify-content: center;
+}
+
+.auth__title {
+	text-align: center;
+}
+
+.auth__forms {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: start;
+	gap: 2em;
+	padding: 2em;
+}

@@ -9,3 +9,12 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+ul {
+	list-style-type: none;
+}
+
+button, input, textarea, select {
+	font-size: inherit;
+	font-family: inherit;
+}

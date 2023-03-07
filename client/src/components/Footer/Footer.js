@@ -1,10 +1,10 @@
 import React from "react";
 import "./Footer.css";
 
-const Footer = () => {
+const Footer = ({ author, year }) => {
 	return (
 		<footer className="footer">
-			<p className="footer__copyright">Ruaidhri MacKenzie &copy; 2023</p>
+			<p className="footer__copyright">{author} &copy; {year}</p>
 		</footer>
 	);
 };
