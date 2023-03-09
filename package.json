@@ -5,12 +5,13 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "server": "set NODE_ENV=development && nodemon server.js",
+		"server": "set NODE_ENV=development && nodemon server.js",
     "client": "npm start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "build": "npm run build --prefix client",
     "prestart": "npm run build",
-    "start": "set NODE_ENV=production && node server.js"
+    "start": "set NODE_ENV=production && node server.js",
+		"setup": "npm install --prefix client && npm install && npm start"
   },
   "repository": {
     "type": "git",
