@@ -1,8 +1,6 @@
 import Quote from "../models/quote.js";
-import { calculateLabourCost, calculateRawLabourCost, extractQuoteData } from "../services/quote.service.js";
-import { addQuoteToUser } from "../services/user.service.js";
-
-const quoteSelectString = "_id name tasks timeCreated";
+import { quoteSelectString, extractQuoteData } from "../services/quote.service.js";
+import { addQuoteToUser, removeQuoteFromUser } from "../services/user.service.js";
 
 export const listQuotes = async (req, res) => {
 	try {
@@ -18,36 +16,13 @@ export const listQuotes = async (req, res) => {
 export const createQuote = async (req, res) => {
 	try {
 		const { name, tasks } = req.body;
-		// Calculate labour costs with fudge factor
-		tasks.forEach(calculateLabourCost);
-		
+
 		// Create quote and extract data to plain object
 		const quote = await Quote.create({ name, tasks });
 		const quoteData = extractQuoteData(quote);
 
 		// Add quote id to user quotes
-		addQuoteToUser(req.user._id, quote._id);
-
-		res.status(201).json({ quote: quoteData });
-	}
-	catch (error) {
-		console.log(error);
-		res.status(500).json({ error: "Server error. Please contact administrator." });
-	}
-};
-
-export const createRawQuote = async (req, res) => {
-	try {
-		const { tasks } = req.body;
-		// Calculate labour costs without fudge factor
-		tasks.forEach(calculateRawLabourCost);
-
-		// Create quote and extract data to plain object
-		const quote = await Quote.create({ tasks });
-		const quoteData = extractQuoteData(quote);
-
-		// Add quote id to user quotes
-		addQuoteToUser(req.user._id, quoteData._id);
+		await addQuoteToUser(req.user._id, quoteData._id);
 
 		res.status(201).json({ quote: quoteData });
 	}
@@ -78,12 +53,6 @@ export const updateQuote = async (req, res) => {
 	try {
 		const id = req.params.id;
 		const data = req.body;
-
-		// Calculate labour costs with fudge factor
-		if (data.tasks) {
-			data.tasks.forEach(calculateLabourCost);
-		}
-
 		const quote = await Quote.findOneAndUpdate({ _id: id }, { $set: data }).select(quoteSelectString).exec();
 		if (quote) {
 			res.status(200).json({ quote });
@@ -103,6 +72,7 @@ export const removeQuote = async (req, res) => {
 		const id = req.params.id;
 		const result = await Quote.deleteOne({ _id: id }).exec();
 		if (result.deletedCount) {
+			await removeQuoteFromUser(req.user._id, id);
 			res.status(200).json({ success: true });
 		}
 		else {
