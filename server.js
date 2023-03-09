@@ -10,8 +10,8 @@ import { localStrategy, serializeUser, deserializeUser } from "./middleware/pass
 import authRouter from "./routes/auth.router.js";
 import userRouter from "./routes/user.router.js";
 import quoteRouter from "./routes/quote.router.js";
-import paygradeRouter from "./routes/paygrade.router.js";
-import { PUBLIC_PATH, PORT, MONGO_URI, MONGO_DB_NAME, SESSION_SECRET } from "./config.js";
+import roleRouter from "./routes/role.router.js";
+import { PUBLIC_PATH, PORT, NODE_ENV, SESSION_SECRET, MONGO_URI, MONGO_DB_NAME } from "./config.js";
 
 // Create express app with HTTP server
 const app = express();
@@ -27,10 +27,12 @@ app.use(cookieParser());
 app.use(express.static(PUBLIC_PATH));
 
 // Set CORS policy
-app.use(cors({
-	origin: "http://localhost:3000",
-	credentials: true,
-}));
+const corsOptions = {};
+if (NODE_ENV === "development") {
+	corsOptions.origin = "http://localhost:3000";
+	corsOptions.credentials = true;
+}
+app.use(cors(corsOptions));
 
 // Create user sessions store
 const MongoDBStore = connectSession(expressSession);
@@ -40,13 +42,20 @@ const store = new MongoDBStore({
 	collection: "sessions",
 });
 store.on("error", error => console.log(error));
+
+const cookie = { httpOnly: true, secure: true, sameSite: "strict", maxAge: 1000 * 60 * 60 * 24 };
+if (NODE_ENV === "development") {
+	cookie.secure = false;
+	cookie.sameSite = "none";
+}
+
 const session = expressSession({
 	name: "sessionId",
 	secret: SESSION_SECRET,
-	store: store,
+	store,
 	resave: false,
 	saveUninitialized: false,
-	cookie: { httpOnly: true, secure: false, sameSite: "none", maxAge: 1000 * 60 * 60 * 24 },
+	cookie,
 });
 app.use(session);
 
@@ -62,9 +71,7 @@ app.get("/", (req, res) => res.sendFile(`${PUBLIC_PATH}/index.html`));
 app.use("/auth", authRouter);
 app.use("/users", userRouter);
 app.use("/quotes", quoteRouter);
-app.use("/paygrades", paygradeRouter);
-
-// Resource not found - 404
+app.use("/roles", roleRouter);
 app.use((req, res) => res.status(404).json({ error: "Unknown resource" }));
 
 // Connect to database
