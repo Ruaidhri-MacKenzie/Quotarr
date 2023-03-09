@@ -20,6 +20,12 @@
 	padding-bottom: 1em;
 }
 
+.task-input__name-input {
+	font-weight: bold;
+	padding: 0.25em;
+	background-color: white;
+}
+
 .task-input__close {
 	font-size: 2rem;
 	font-weight: bold;

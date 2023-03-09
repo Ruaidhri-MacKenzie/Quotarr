@@ -11,6 +11,18 @@
 	background-color: hsl(0 0% 95%);
 }
 
+.items-input__name-input {
+	padding: 0.25em;
+	background-color: white;
+}
+
+.items-input__cost-input,
+.items-input__quantity-input {
+	width: 6em;
+	padding: 0.25em;
+	background-color: white;
+}
+
 .items-input__submit {
 	width: fit-content;
 	padding: 0.25em 0.5em;

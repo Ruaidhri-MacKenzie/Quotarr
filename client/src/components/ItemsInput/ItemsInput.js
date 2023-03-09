@@ -33,7 +33,7 @@ const ItemsInput = ({ items, setItems }) => {
 
 				<label className="items-input__cost">
 					<p className="items-input__cost-label">Cost</p>
-					<input className="items-input__cost-input" type="number" step={0.01} name="cost" value={state.cost || 0} onChange={handleInputChange} />
+					<input className="items-input__cost-input" type="number" step={0.01} max={99999.99} name="cost" value={state.cost || 0} onChange={handleInputChange} />
 				</label>
 
 				<label className="items-input__quantity">
