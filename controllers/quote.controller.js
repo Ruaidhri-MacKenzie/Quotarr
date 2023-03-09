@@ -17,12 +17,12 @@ export const listQuotes = async (req, res) => {
 
 export const createQuote = async (req, res) => {
 	try {
-		const { tasks } = req.body;
+		const { name, tasks } = req.body;
 		// Calculate labour costs with fudge factor
 		tasks.forEach(calculateLabourCost);
 		
 		// Create quote and extract data to plain object
-		const quote = await Quote.create({ tasks });
+		const quote = await Quote.create({ name, tasks });
 		const quoteData = extractQuoteData(quote);
 
 		// Add quote id to user quotes

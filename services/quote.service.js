@@ -29,6 +29,7 @@ export const calculateLabourCost = async (task) => {
 export const extractQuoteData = (quote) => {
 	return {
 		_id: quote._id,
+		name: quote.name,
 		tasks: quote.tasks,
 		timeCreated: quote.timeCreated,
 	};
