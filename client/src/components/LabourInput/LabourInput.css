@@ -1,0 +1,29 @@
+.labour-input {
+	display: grid;
+}
+
+.labour-input__form {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: flex-end;
+	gap: 1em;
+	padding: 1em;
+	background-color: hsl(0 0% 95%);
+}
+
+.labour-input__role-input {
+	padding: 0.25em 0.5em;
+	cursor: pointer;
+}
+
+.labour-input__hours-input {
+	width: 4em;
+	padding: 0.25em;
+}
+
+.labour-input__submit {
+	width: fit-content;
+	padding: 0.25em 0.5em;
+	cursor: pointer;
+}

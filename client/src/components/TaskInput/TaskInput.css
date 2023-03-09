@@ -1,0 +1,37 @@
+.task-input {
+	display: grid;
+	gap: 1em;
+	padding: 0 1em 1.5em;
+	box-shadow: 0px 2px 8px hsl(0 0% 39% / 0.2);
+}
+
+.task-input__header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 1em;
+}
+
+.task-input__title {
+	margin-inline: auto;
+}
+
+.task-input__name {
+	padding-bottom: 1em;
+}
+
+.task-input__close {
+	font-size: 2rem;
+	font-weight: bold;
+	background: none;
+	border: none;
+	color: red;
+	cursor: pointer;
+}
+
+.task-input__submit {
+	width: fit-content;
+	margin-inline: auto;
+	padding: 0.25em 0.5em;
+	cursor: pointer;
+}

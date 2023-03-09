@@ -1,4 +1,6 @@
 .header {
+	display: flex;
+	align-items: center;
 	padding: 1em;
 	background-color: var(--clr-primary);
 	color: white;
@@ -6,4 +8,11 @@
 
 .header__title {
 	text-align: center;
+}
+
+.header__sign-out {
+	width: fit-content;
+	margin-left: auto;
+	padding: 0.5em 1em;
+	cursor: pointer;
 }

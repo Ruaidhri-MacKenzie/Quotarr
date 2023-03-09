@@ -1,0 +1,19 @@
+.items-input {
+	display: grid;
+}
+
+.items-input__form {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: flex-end;
+	gap: 1em;
+	padding: 1em;
+	background-color: hsl(0 0% 95%);
+}
+
+.items-input__submit {
+	width: fit-content;
+	padding: 0.25em 0.5em;
+	cursor: pointer;
+}

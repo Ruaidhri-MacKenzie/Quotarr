@@ -1,0 +1,29 @@
+.items-list {
+	display: grid;
+	grid-template-columns: 3fr repeat(3, 1fr);
+	background-color: hsl(0 0% 98%);
+}
+
+.items-list__empty {
+	padding: 0.5em;
+}
+
+.items-list__header {
+	background-color: var(--clr-primary);
+	color: white;
+}
+
+.items-list__header,
+.items-line {
+	grid-column: 1 / -1;
+	display: grid;
+	grid-template-columns: subgrid;
+	justify-items: right;
+	gap: 1em;
+	padding: 0.5em;
+}
+
+.items-list__column:first-child,
+.items-line__column:first-child {
+	justify-self: left;
+}

@@ -1,5 +1,6 @@
 .quote-view {
-
+	padding: 0.5em;
+	box-shadow: 0px 2px 8px hsl(0 0% 39% / 0.2);
 }
 
 .quote-view__name {
@@ -7,5 +8,5 @@
 }
 
 .quote-view__empty {
-
+	text-align: center;
 }

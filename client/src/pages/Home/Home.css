@@ -1,11 +1,9 @@
 .home {
-
+	display: grid;
+	gap: 1em;
+	padding: 1em;
 }
 
 .home__title {
-
-}
-
-.home__link {
-
+	text-align: center;
 }

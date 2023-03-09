@@ -1,11 +1,17 @@
 .quote-form {
-
+	display: grid;
+	align-content: start;
+	gap: 1em;
+	padding: 1em 2em 1.5em;
+	box-shadow: 0px 2px 8px hsl(0 0% 39% / 0.2);
 }
 
 .quote-form__title {
-
+	text-align: center;
 }
 
 .quote-form__submit {
-
+	width: fit-content;
+	padding: 0.5em 1em;
+	cursor: pointer;
 }
