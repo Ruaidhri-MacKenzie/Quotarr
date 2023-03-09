@@ -1,7 +1,8 @@
 import Quote from "../models/quote.js";
-import { calculateLabourCost, extractQuoteData } from "../services/quote.service.js";
+import { calculateLabourCost, calculateRawLabourCost, extractQuoteData } from "../services/quote.service.js";
+import { addQuoteToUser } from "../services/user.service.js";
 
-const quoteSelectString = "_id tasks timeCreated";
+const quoteSelectString = "_id name tasks timeCreated";
 
 export const listQuotes = async (req, res) => {
 	try {
@@ -24,6 +25,9 @@ export const createQuote = async (req, res) => {
 		const quote = await Quote.create({ tasks });
 		const quoteData = extractQuoteData(quote);
 
+		// Add quote id to user quotes
+		addQuoteToUser(req.user._id, quoteData._id);
+
 		res.status(201).json({ quote: quoteData });
 	}
 	catch (error) {
@@ -41,6 +45,9 @@ export const createRawQuote = async (req, res) => {
 		// Create quote and extract data to plain object
 		const quote = await Quote.create({ tasks });
 		const quoteData = extractQuoteData(quote);
+
+		// Add quote id to user quotes
+		addQuoteToUser(req.user._id, quoteData._id);
 
 		res.status(201).json({ quote: quoteData });
 	}

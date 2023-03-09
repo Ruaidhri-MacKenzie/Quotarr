@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 
 const QuoteSchema = new mongoose.Schema({
 	_id: { type: mongoose.Schema.Types.ObjectId, auto: true },
+	name: { type: String, required: true },
 	tasks: [{
 		name: { type: String, default: "" },
 		labourCost: { type: Number, default: 0 },
