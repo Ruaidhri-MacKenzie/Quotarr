@@ -1,13 +1,8 @@
-import SignInForm from "../../components/SignInForm/SignInForm.js";
-import SignUpForm from "../../components/SignUpForm/SignUpForm.js";
+import AuthForm from "../../components/AuthForm/AuthForm.js";
 import "./Auth.css";
 
 const Auth = ({ setUser }) => {
-	const handleSignUp = (result) => {
-		setUser(result.user);
-	};
-	
-	const handleSignIn = (result) => {
+	const signIn = (result) => {
 		setUser(result.user);
 	};
 
@@ -15,8 +10,8 @@ const Auth = ({ setUser }) => {
 		<div className="auth">
 			<h2 className="auth__title">Auth</h2>
 			<div className="auth__forms">
-				<SignInForm onSuccess={handleSignIn} />
-				<SignUpForm onSuccess={handleSignUp} />
+				<AuthForm isSignUp={false} onSuccess={signIn} />
+				<AuthForm isSignUp={true} onSuccess={signIn} />
 			</div>
 		</div>
 	);
