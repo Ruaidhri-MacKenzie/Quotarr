@@ -13,6 +13,8 @@ import quoteRouter from "./routes/quote.router.js";
 import roleRouter from "./routes/role.router.js";
 import { PUBLIC_PATH, PORT, NODE_ENV, SESSION_SECRET, MONGO_URI, MONGO_DB_NAME } from "./config.js";
 
+console.log(`Environment: ${NODE_ENV}`);
+
 // Create express app with HTTP server
 const app = express();
 
@@ -78,7 +80,7 @@ app.use((req, res) => res.status(404).json({ error: "Unknown resource" }));
 mongoose.connect(MONGO_URI, { useNewUrlParser: true })
 .then(() => {
 	mongoose.connection.on("error", error => console.log(error));
-	console.log("Database connected.");
+	console.log(`Database connected: ${MONGO_DB_NAME}`);
 	
 	// Start server listening for requests
 	app.listen(PORT, () => console.log(`Server listening on port ${PORT}...`));
