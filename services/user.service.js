@@ -19,5 +19,5 @@ export const extractUserData = (user) => {
 };
 
 export const addQuoteToUser = async (userId, quoteId) => {
-	await User.findOneAndUpdate({ _id: userId }, { quotes: { $push: quoteId } }).exec();
+	await User.findOneAndUpdate({ _id: userId }, { $push: { quotes: quoteId } }).exec();
 };
