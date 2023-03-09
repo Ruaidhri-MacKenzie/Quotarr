@@ -12,7 +12,7 @@ const Home = ({ user }) => {
 			<h2 className="home__title">Home</h2>
 			<QuoteList quotes={user.quotes} setSelected={setSelectedQuote} />
 			<QuoteView quote={selectedQuote} />
-			<QuoteForm />
+			<QuoteForm onSuccess={() => {}} />
 		</div>
 	);
 };

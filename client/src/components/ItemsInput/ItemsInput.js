@@ -16,6 +16,7 @@ const ItemsInput = ({ items, setItems }) => {
 			cost: Number(state.cost),
 			quantity: Number(state.quantity),
 		}]);
+		setState({});
 	};
 
 	return (

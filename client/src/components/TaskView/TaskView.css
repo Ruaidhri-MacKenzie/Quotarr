@@ -1,0 +1,21 @@
+.task-view {
+}
+
+.task-view__header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 1em;
+}
+
+.task-view__name {
+	color: hsl(0 0% 25%)
+}
+
+.task-view__remove {
+	font-size: 2rem;
+	background: none;
+	border: none;
+	color: red;
+	cursor: pointer;
+}

@@ -19,6 +19,10 @@ const TaskInput = ({ setTasks, close }) => {
 			labour,
 			items,
 		}]);
+		setName("");
+		setLabour([]);
+		setItems([]);
+		close();
 	};
 
 	return (
