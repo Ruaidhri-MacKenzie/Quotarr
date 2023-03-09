@@ -26,7 +26,7 @@ export const createQuote = async (req, res) => {
 		const quoteData = extractQuoteData(quote);
 
 		// Add quote id to user quotes
-		addQuoteToUser(req.user._id, quoteData._id);
+		addQuoteToUser(req.user._id, quote._id);
 
 		res.status(201).json({ quote: quoteData });
 	}
