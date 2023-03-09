@@ -1,11 +1,11 @@
-import Paygrade from "../models/paygrade.js";
+import Role from "../models/role.js";
 
 export const calculateRawLabourCost = async (task) => {
-	const paygrades = await Paygrade.find().select("_id name rate").exec();
+	const roles = await Role.find().select("_id name rate").exec();
 	let labourCost = 0;
 	task.labour.forEach(line => {
-		const paygrade = paygrades.find(grade => grade.name === line.grade);
-		labourCost += line.hours * paygrade.rate;
+		const role = roles.find(role => role.name === line.name);
+		labourCost += line.hours * role.rate;
 	});
 	task.labourCost = labourCost;
 	delete task.labour;
@@ -13,12 +13,13 @@ export const calculateRawLabourCost = async (task) => {
 };
 
 export const calculateLabourCost = async (task) => {
-	const paygrades = await Paygrade.find().select("_id name rate").exec();
+	const roles = await Role.find().select("_id name rate").exec();
 	let labourCost = 0;
 	task.labour.forEach(line => {
-		const paygrade = paygrades.find(grade => grade.name === line.grade);
+		const role = roles.find(role => role.name === line.name);
+		const rate = role?.rate || 0;
 		const fudgeFactor = Math.random() + 0.5;
-		labourCost += line.hours * paygrade.rate * fudgeFactor;
+		labourCost += line.hours * rate * fudgeFactor;
 	});
 	task.labourCost = labourCost;
 	delete task.labour;
@@ -29,6 +30,6 @@ export const extractQuoteData = (quote) => {
 	return {
 		_id: quote._id,
 		tasks: quote.tasks,
-		createTime: quote.createTime,
+		timeCreated: quote.timeCreated,
 	};
 };

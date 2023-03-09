@@ -1,7 +1,7 @@
 import Quote from "../models/quote.js";
 import { calculateLabourCost, extractQuoteData } from "../services/quote.service.js";
 
-const quoteSelectString = "_id tasks createTime";
+const quoteSelectString = "_id tasks timeCreated";
 
 export const listQuotes = async (req, res) => {
 	try {

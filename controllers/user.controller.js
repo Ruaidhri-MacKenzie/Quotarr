@@ -1,7 +1,7 @@
 import User from "../models/user.js";
 import { hashPassword, extractUserData } from "../services/user.service.js";
 
-const userSelectString = "_id username admin quotes createTime";
+const userSelectString = "_id username admin quotes timeCreated";
 
 export const listUsers = async (req, res) => {
 	try {

@@ -13,6 +13,6 @@ export const extractUserData = (user) => {
 		username: user.username,
 		admin: user.admin,
 		quotes: user.quotes,
-		createTime: user.createTime,
+		timeCreated: user.timeCreated,
 	};
 };
