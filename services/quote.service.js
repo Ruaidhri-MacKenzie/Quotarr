@@ -1,5 +1,7 @@
 import Role from "../models/role.js";
 
+export const quoteSelectString = "_id name tasks timeCreated";
+
 export const calculateRawLabourCost = async (task) => {
 	const roles = await Role.find().select("_id name rate").exec();
 	let labourCost = 0;
