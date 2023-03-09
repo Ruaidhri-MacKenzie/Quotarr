@@ -1,4 +1,5 @@
 import bcrypt from "bcrypt";
+import User from "../models/user.js";
 
 export const hashPassword = async (password) => {
 	// Hash password for storage in database
@@ -15,4 +16,8 @@ export const extractUserData = (user) => {
 		quotes: user.quotes,
 		timeCreated: user.timeCreated,
 	};
+};
+
+export const addQuoteToUser = async (userId, quoteId) => {
+	await User.findOneAndUpdate({ _id: userId }, { quotes: { $push: quoteId } }).exec();
 };
