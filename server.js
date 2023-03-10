@@ -6,13 +6,16 @@ import connectSession from "connect-mongodb-session";
 import passport from "passport";
 import cors from "cors";
 
-import { localStrategy, serializeUser, deserializeUser } from "./middleware/passport.js";
+import { localStrategy } from "./middleware/passport.js";
+import { serializeUser, deserializeUser } from "./services/user.service.js";
+
 import authRouter from "./routes/auth.router.js";
 import userRouter from "./routes/user.router.js";
 import quoteRouter from "./routes/quote.router.js";
 import roleRouter from "./routes/role.router.js";
 import { PUBLIC_PATH, PORT, NODE_ENV, SESSION_SECRET, MONGO_URI, MONGO_DB_NAME } from "./config.js";
 
+// Log whether the app is running in development or production environment
 console.log(`Environment: ${NODE_ENV}`);
 
 // Create express app with HTTP server
@@ -45,12 +48,14 @@ const store = new MongoDBStore({
 });
 store.on("error", error => console.log(error));
 
+// Set session cookie options
 const cookie = { httpOnly: true, secure: true, sameSite: "strict", maxAge: 1000 * 60 * 60 * 24 };
 if (NODE_ENV === "development") {
 	cookie.secure = false;
 	cookie.sameSite = "none";
 }
 
+// Create user sessions
 const session = expressSession({
 	name: "sessionId",
 	secret: SESSION_SECRET,

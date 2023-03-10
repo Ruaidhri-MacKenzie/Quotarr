@@ -27,3 +27,14 @@ export const addQuoteToUser = async (userId, quoteId) => {
 export const removeQuoteFromUser = async (userId, quoteId) => {
 	await User.findOneAndUpdate({ _id: userId }, { $pull: { quotes: quoteId } }).exec();
 };
+
+export const serializeUser = (user, done) => done(null, user._id);
+export const deserializeUser = async (id, done) => {
+	try {
+		const user = await User.findById(id).select(userSelectString).populate("quotes").exec();
+		done(null, user);
+	}
+	catch (error) {
+		done(error);
+	}
+};

@@ -23,17 +23,3 @@ export const localStrategy = new Strategy(async (username, password, done) => {
 		done(error);
 	}
 });
-
-export const serializeUser = (user, done) => done(null, user);
-export const deserializeUser = (user, done) => done(null, user);
-
-// export const serializeUser = (user, done) => done(null, user._id);
-// export const deserializeUser = async (id, done) => {
-// 	try {
-// 		const user = await User.findById(id).select("_id username admin quotes timeCreated").populate("quotes").exec();
-// 		done(null, user);
-// 	}
-// 	catch (error) {
-// 		done(error);
-// 	}
-// };
