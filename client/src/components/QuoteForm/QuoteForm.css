@@ -33,3 +33,7 @@
 	padding: 0.5em 1em;
 	cursor: pointer;
 }
+
+.quote-form__submit:disabled {
+	cursor: not-allowed;
+}
