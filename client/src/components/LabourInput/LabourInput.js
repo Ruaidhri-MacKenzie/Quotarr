@@ -2,9 +2,8 @@ import { useState } from "react";
 import LabourList from "../LabourList/LabourList.js";
 import "./LabourInput.css";
 
-const LabourInput = ({ labour, setLabour }) => {
+const LabourInput = ({ labour, setLabour, roles }) => {
 	const [state, setState] = useState({});
-	const roles = ["Junior", "Senior", "Expert"];
 
 	const handleInputChange = (event) => {
 		setState(current => ({ ...current, [event.target.name]: event.target.value }));
@@ -29,7 +28,8 @@ const LabourInput = ({ labour, setLabour }) => {
 					<p className="labour-input__role-label">Role</p>
 					<select className="labour-input__role-input" name="role" value={state.role} defaultValue="" onChange={handleInputChange}>
 						<option value="" disabled>Select a role</option>
-						{roles.map(option => <option key={option} value={option}>{option}</option>)}
+						{roles.map(role => <option key={role.name} value={role.name}>{role.name}</option>)}
+						{roles.length === 0 && <option value="Intern">Intern</option>}
 					</select>
 				</label>
 

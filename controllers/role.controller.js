@@ -4,7 +4,8 @@ const roleSelectString = "_id name rate timeCreated";
 
 export const listRoles = async (req, res) => {
 	try {
-		const roles = await Role.find().select(roleSelectString).exec();
+		const selectString = (req.user.admin) ? roleSelectString : "_id name";
+		const roles = await Role.find().select(selectString).exec();
 		res.status(200).json({ roles });
 	}
 	catch (error) {
@@ -16,6 +17,7 @@ export const listRoles = async (req, res) => {
 export const listRoleNames = async (req, res) => {
 	try {
 		const roles = await Role.find().select("_id name").exec();
+		
 		res.status(200).json({ roles });
 	}
 	catch (error) {

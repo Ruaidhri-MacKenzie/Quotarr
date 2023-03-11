@@ -3,7 +3,7 @@ import LabourInput from "../LabourInput/LabourInput.js";
 import ItemsInput from "../ItemsInput/ItemsInput.js";
 import "./TaskInput.css";
 
-const TaskInput = ({ setTasks, close }) => {
+const TaskInput = ({ roles, setTasks, close }) => {
 	const [name, setName] = useState("");
 	const [labour, setLabour] = useState([]);
 	const [items, setItems] = useState([]);
@@ -37,7 +37,7 @@ const TaskInput = ({ setTasks, close }) => {
 				<input className="task-input__name-input" type="text" value={name || ""} onChange={handleChangeName} />
 			</label>
 
-			<LabourInput labour={labour} setLabour={setLabour} />
+			<LabourInput labour={labour} setLabour={setLabour} roles={roles} />
 
 			<ItemsInput items={items} setItems={setItems} />
 

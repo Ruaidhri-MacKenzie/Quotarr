@@ -4,7 +4,7 @@ import TaskView from "../TaskView/TaskView.js";
 import { httpPost } from "../../utils/http";
 import "./QuoteForm.css";
 
-const QuoteForm = ({ onSuccess }) => {
+const QuoteForm = ({ roles, onSuccess }) => {
 	const [name, setName] = useState("");
 	const [tasks, setTasks] = useState([]);
 	const [showNewTask, setShowNewTask] = useState(false);
@@ -27,10 +27,10 @@ const QuoteForm = ({ onSuccess }) => {
 			</label>
 
 			<ul className="quote-form__tasks">
-				{tasks && tasks.map((task, index) => <TaskView key={(task.name || "") + index} task={task} index={index} />)}
+				{tasks && tasks.map((task, index) => <TaskView key={(task.name || "") + index} task={task} index={index} newQuote={true} />)}
 			</ul>
 
-			{showNewTask && <TaskInput setTasks={setTasks} close={(event) => setShowNewTask(false)} />}
+			{showNewTask && <TaskInput roles={roles} setTasks={setTasks} close={(event) => setShowNewTask(false)} />}
 			{!showNewTask && <button className="quote-form__new-task" onClick={(event) => setShowNewTask(true)}>New Task</button>}
 
 			<button className="quote-form__submit" type="submit">Create Quote</button>
