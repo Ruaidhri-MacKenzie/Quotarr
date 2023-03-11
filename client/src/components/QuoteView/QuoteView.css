@@ -1,10 +1,24 @@
 .quote-view {
-	padding: 0.5em;
+	padding: 1em;
 	box-shadow: 0px 2px 8px hsl(0 0% 39% / 0.2);
 }
 
-.quote-view__name {
+.quote-view__header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 1em;
+}
 
+.quote-view__total {
+	font-size: 1.25rem;
+	font-weight: bold;
+}
+
+.quote-view__tasks {
+	display: grid;
+	gap: 2em;
+	padding: 1em;
 }
 
 .quote-view__empty {

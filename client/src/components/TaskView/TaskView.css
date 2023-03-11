@@ -9,7 +9,20 @@
 }
 
 .task-view__name {
-	color: hsl(0 0% 25%)
+	color: hsl(0 0% 25%);
+}
+
+.task-view__subtotal {
+	font-weight: bold;
+	color: hsl(0 0% 25%);
+}
+
+.task-view__labour {
+	display: grid;
+	grid-template-columns: 1fr auto;
+	gap: 1em;
+	padding: 0.5em;
+	background-color: hsl(0 0% 98%);
 }
 
 .task-view__remove {
