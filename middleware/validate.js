@@ -40,8 +40,8 @@ export const validateQuote = (req, res, next) => {
 	if (!name) {
 		res.status(400).json({ error: "Must include a quote name" });
 	}
-	else if (name.length > 20) {
-		res.status(400).json({ error: "Quote name must be at most 20 characters" });
+	else if (name.length > 30) {
+		res.status(400).json({ error: "Quote name must be at most 30 characters" });
 	}
 	else if (!tasks || !tasks.length) {
 		res.status(400).json({ error: "Must include at least one task" });
