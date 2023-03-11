@@ -31,9 +31,7 @@
 	justify-content: space-evenly;
 }
 
-.quote-view__edit,
-.quote-view__cancel,
-.quote-view__delete {
+.quote-view__button {
 	padding: 0.25em 0.5em;
 	cursor: pointer;
 }

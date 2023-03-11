@@ -10,14 +10,14 @@ const QuoteView = ({ quote, setUser, editSelected, setEditSelected }) => {
 		if (!quote) {
 			setEditSelected(false);
 		}
-		else if (quote?.tasks) {
+		else if (quote.tasks) {
 			setTotal(quote.tasks.reduce((total, task) => {
 				return total += task.labourCost + task.items.reduce((subtotal, line) => {
 					return subtotal += (line.cost * line.quantity);
 				}, 0);
 			}, 0));
 		}
-	}, [quote]);
+	}, [quote, setEditSelected]);
 
 	const editQuote = (event) => setEditSelected(true);
 	const cancelEditQuote = (event) => setEditSelected(false);
@@ -26,10 +26,8 @@ const QuoteView = ({ quote, setUser, editSelected, setEditSelected }) => {
 		const confirmed = window.confirm(`You are about to delete quote ${quote.name}, is that correct?`);
 		if (!confirmed) return;
 		httpDelete(`/quotes/${event.target.dataset.id}`,
-		(result) => {
-			setUser(current => ({ ...current, quotes: current.quotes.filter(quote => quote._id !== event.target.dataset.id)}));
-		},
-		(error) => console.log(error)
+			(result) => setUser(current => ({ ...current, quotes: current.quotes.filter(quote => quote._id !== event.target.dataset.id)})),
+			(error) => console.log(error),
 		);
 	};
 
@@ -52,9 +50,9 @@ const QuoteView = ({ quote, setUser, editSelected, setEditSelected }) => {
 				{(!quote?.tasks || quote?.tasks?.length === 0) && <p className="quote-view__tasks-empty">No Tasks</p>}
 			</div>
 			<div className="quote-view__buttons">
-				{!editSelected && <button className="quote-view__edit" onClick={editQuote}>Edit Quote</button>}
-				{editSelected && <button className="quote-view__cancel" onClick={cancelEditQuote}>Cancel Edit Quote</button>}
-				<button className="quote-view__delete" onClick={deleteQuote} data-id={quote?._id}>Delete Quote</button>
+				{!editSelected && <button className="quote-view__button" onClick={editQuote}>Edit Quote</button>}
+				{editSelected && <button className="quote-view__button" onClick={cancelEditQuote}>Cancel Edit Quote</button>}
+				<button className="quote-view__button" onClick={deleteQuote} data-id={quote?._id}>Delete Quote</button>
 			</div>
 		</div>
 	);
