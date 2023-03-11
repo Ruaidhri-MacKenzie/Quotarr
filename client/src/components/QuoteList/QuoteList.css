@@ -1,6 +1,7 @@
 .quote-list {
 	padding: 0.5em;
 	box-shadow: 0px 2px 8px hsl(0 0% 39% / 0.2);
+	cursor: pointer;
 }
 
 .quote-list__empty {
@@ -9,5 +10,17 @@
 
 .quote-list-item {
 	padding: 0.5em;
-	border: 1px solid black;
+	border-radius: 10px;
+	user-select: none;
+}
+
+.quote-list-item--selected {
+	font-weight: bold;
+	border: 1px solid var(--clr-primary);
+	background-color: hsl(0 0% 98%);
+}
+
+.quote-list-item:focus-within,
+.quote-list-item:hover {
+	font-weight: bold;
 }
