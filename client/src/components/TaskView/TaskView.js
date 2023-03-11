@@ -9,7 +9,7 @@ const TaskView = ({ task, index, newQuote, removeTask }) => {
 		<div className="task-view">
 			<header className="task-view__header">
 				<h3 className="task-view__name">Task {index + 1}: {task.name}</h3>
-				{newQuote && <button className="task-view__remove" name={index} onClick={removeTask}>&times;</button>}
+				{newQuote && <button className="task-view__remove" data-index={index} onClick={removeTask}>&times;</button>}
 				{!newQuote && <p className="task-view__subtotal">Subtotal: £{total.toFixed(2)}</p>}
 			</header>
 			{newQuote && <LabourList labour={task.labour} />}

@@ -28,7 +28,7 @@ const QuoteForm = ({ roles, setUser, setSelected }) => {
 
 	const removeTask = (event) => {
 		event.preventDefault();
-		setTasks(current => current.filter((task, index) => Number(event.target.name) !== index));
+		setTasks(current => current.filter((task, index) => Number(event.target.dataset.index) !== index));
 	};
 
 	return (
@@ -47,7 +47,7 @@ const QuoteForm = ({ roles, setUser, setSelected }) => {
 			{showNewTask && <TaskInput roles={roles} setTasks={setTasks} close={(event) => setShowNewTask(false)} />}
 			{!showNewTask && <button className="quote-form__new-task" onClick={(event) => setShowNewTask(true)}>New Task</button>}
 
-			{!showNewTask && <button className="quote-form__submit" type="submit">Create Quote</button>}
+			{<button className="quote-form__submit" type="submit" disabled={(showNewTask || !name.length || !tasks.length || tasks.reduce((total, task) => total += (task.labour.length + task.items.length), 0) === 0)}>Create Quote</button>}
 		</form>
 	);
 };

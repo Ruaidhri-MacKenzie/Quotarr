@@ -14,11 +14,7 @@ const TaskInput = ({ roles, setTasks, close }) => {
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
-		setTasks(current => [...current, {
-			name,
-			labour,
-			items,
-		}]);
+		setTasks(current => [...current, { name, labour, items }]);
 		setName("");
 		setLabour([]);
 		setItems([]);
