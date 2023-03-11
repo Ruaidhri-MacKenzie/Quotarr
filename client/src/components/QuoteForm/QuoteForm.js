@@ -17,6 +17,11 @@ const QuoteForm = ({ roles, onSuccess }) => {
 		httpPost("http://localhost:2000/quotes", { name, tasks }, onSuccess, onError);
 	};
 
+	const removeTask = (event) => {
+		event.preventDefault();
+		setTasks(current => current.filter((task, index) => Number(event.target.name) !== index));
+	};
+
 	return (
 		<form className="quote-form" onSubmit={handleSubmit}>
 			<h2 className="quote-form__title">New Quote</h2>
@@ -27,13 +32,13 @@ const QuoteForm = ({ roles, onSuccess }) => {
 			</label>
 
 			<ul className="quote-form__tasks">
-				{tasks && tasks.map((task, index) => <TaskView key={(task.name || "") + index} task={task} index={index} newQuote={true} />)}
+				{tasks && tasks.map((task, index) => <TaskView key={(task.name || "") + index} task={task} index={index} newQuote={true} removeTask={removeTask} />)}
 			</ul>
 
 			{showNewTask && <TaskInput roles={roles} setTasks={setTasks} close={(event) => setShowNewTask(false)} />}
 			{!showNewTask && <button className="quote-form__new-task" onClick={(event) => setShowNewTask(true)}>New Task</button>}
 
-			<button className="quote-form__submit" type="submit">Create Quote</button>
+			{!showNewTask && <button className="quote-form__submit" type="submit">Create Quote</button>}
 		</form>
 	);
 };
