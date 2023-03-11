@@ -14,7 +14,7 @@ const AuthForm = ({ isSignUp, onSuccess }) => {
 		}
 
 		const endpoint = (isSignUp) ? "signup" : "signin";
-		httpPost(`http://localhost:2000/auth/${endpoint}`, state, onSuccess, onError);
+		httpPost(`/auth/${endpoint}`, state, onSuccess, onError);
 	};
 
 	const [state, handleInputChange, handleSubmit] = useForm(onSubmit);

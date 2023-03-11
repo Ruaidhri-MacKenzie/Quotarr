@@ -25,7 +25,7 @@ const QuoteView = ({ quote, setUser, editSelected, setEditSelected }) => {
 	const deleteQuote = (event) => {
 		const confirmed = window.confirm(`You are about to delete quote ${quote.name}, is that correct?`);
 		if (!confirmed) return;
-		httpDelete(`http://localhost:2000/quotes/${event.target.dataset.id}`,
+		httpDelete(`/quotes/${event.target.dataset.id}`,
 		(result) => {
 			setUser(current => ({ ...current, quotes: current.quotes.filter(quote => quote._id !== event.target.dataset.id)}));
 		},

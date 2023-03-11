@@ -11,7 +11,7 @@ const Home = ({ user, setUser }) => {
 	const [editSelected, setEditSelected] = useState(false);
 
 	useEffect(() => {
-		httpGet("http://localhost:2000/roles",
+		httpGet("/roles",
 			(result) => setRoles(result.roles),
 			(error) => console.log(error)
 		);

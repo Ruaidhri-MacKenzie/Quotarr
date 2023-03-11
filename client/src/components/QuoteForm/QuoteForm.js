@@ -33,10 +33,10 @@ const QuoteForm = ({ quote, edit, roles, setUser, setSelected }) => {
 	const handleSubmit = (event) => {
 		event.preventDefault();
 		if (quote) {
-			httpPut(`http://localhost:2000/quotes/${quote._id}`, { name, tasks }, onSuccess, onError);
+			httpPut(`/quotes/${quote._id}`, { name, tasks }, onSuccess, onError);
 		}
 		else {
-			httpPost("http://localhost:2000/quotes", { name, tasks }, onSuccess, onError);
+			httpPost("/quotes", { name, tasks }, onSuccess, onError);
 		}
 	};
 

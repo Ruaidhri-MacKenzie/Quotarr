@@ -10,14 +10,14 @@ const App = () => {
 	const [user, setUser] = useState(null);
 
 	const signOut = () => {
-		httpGet("http://localhost:2000/auth/signout",
+		httpGet("/auth/signout",
 			(result) => setUser(null),
 			(error) => console.log(error),
 		);
 	};
 
 	useEffect(() => {
-		httpGet("http://localhost:2000/auth", 
+		httpGet("/auth", 
 			(result) => setUser(result.user),
 			(error) => console.log(error),
 		);
