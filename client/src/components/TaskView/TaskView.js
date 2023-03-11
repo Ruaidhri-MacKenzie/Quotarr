@@ -12,14 +12,14 @@ const TaskView = ({ task, index, newQuote, removeTask }) => {
 				{newQuote && <button className="task-view__remove" data-index={index} onClick={removeTask}>&times;</button>}
 				{!newQuote && <p className="task-view__subtotal">Subtotal: £{total.toFixed(2)}</p>}
 			</header>
-			{newQuote && <LabourList labour={task.labour} />}
-			<ItemsList items={task.items} />
+			<LabourList labour={task.labour} />
 			{!newQuote && (
 				<div className="task-view__labour">
 					<p className="task-view__labour-label">Labour</p>
 					<p className="task-view__labour-cost">£{task.labourCost.toFixed(2)}</p>
 				</div>
 			)}
+			<ItemsList items={task.items} />
 		</div>
 	);
 };

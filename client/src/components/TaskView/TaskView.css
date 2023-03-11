@@ -18,11 +18,12 @@
 }
 
 .task-view__labour {
+	margin-bottom: 1em;
 	display: grid;
 	grid-template-columns: 1fr auto;
 	gap: 1em;
 	padding: 0.5em;
-	background-color: hsl(0 0% 98%);
+	background-color: hsl(0 0% 90%);
 }
 
 .task-view__remove {
