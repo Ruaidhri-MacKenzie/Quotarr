@@ -6,6 +6,10 @@ const QuoteSchema = new mongoose.Schema({
 	tasks: [{
 		name: { type: String, default: "" },
 		labourCost: { type: Number, default: 0 },
+		labour: [{
+			role: { type: String, default: "" },
+			hours: { type: Number, default: 1, min: 1 },
+		}],
 		items: [{
 			name: { type: String, default: "" },
 			cost: { type: Number, default: 0, min: 0 },

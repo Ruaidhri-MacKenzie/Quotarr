@@ -7,10 +7,10 @@ export const calculateRawLabourCost = async (task) => {
 	let labourCost = 0;
 	task.labour.forEach(line => {
 		const role = roles.find(role => role.name === line.name);
-		labourCost += line.hours * role.rate;
+		const rate = role?.rate || 0;
+		labourCost += line.hours * rate;
 	});
 	task.labourCost = labourCost;
-	delete task.labour;
 	return task;
 };
 
@@ -24,7 +24,6 @@ export const calculateLabourCost = async (task) => {
 		labourCost += line.hours * rate * fudgeFactor;
 	});
 	task.labourCost = labourCost;
-	delete task.labour;
 	return task;
 };
 
