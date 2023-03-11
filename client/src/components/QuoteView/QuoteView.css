@@ -32,6 +32,7 @@
 }
 
 .quote-view__edit,
+.quote-view__cancel,
 .quote-view__delete {
 	padding: 0.25em 0.5em;
 	cursor: pointer;

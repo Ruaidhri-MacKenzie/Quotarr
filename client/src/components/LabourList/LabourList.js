@@ -17,8 +17,8 @@ const LabourList = ({ labour }) => {
 			<li className="labour-list__header">
 				{columns.map(column => <p key={column} className="labour-list__column">{column}</p>)}
 			</li>
-			{labour.map((line, index) => <LabourLine key={(line.role || "") + index} line={line} />)}
-			{labour.length === 0 && <li className="labour-list__empty">No labour</li>}
+			{labour?.map((line, index) => <LabourLine key={(line.role || "") + index} line={line} />)}
+			{labour?.length === 0 && <li className="labour-list__empty">No labour</li>}
 		</ul>
 	);
 };

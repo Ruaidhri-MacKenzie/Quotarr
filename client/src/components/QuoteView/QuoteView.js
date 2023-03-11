@@ -3,11 +3,14 @@ import TaskView from "../TaskView/TaskView";
 import { httpDelete } from "../../utils/http.js";
 import "./QuoteView.css";
 
-const QuoteView = ({ quote, setUser }) => {
+const QuoteView = ({ quote, setUser, editSelected, setEditSelected }) => {
 	const [total, setTotal] = useState(0);
 	
 	useEffect(() => {
-		if (quote.tasks) {
+		if (!quote) {
+			setEditSelected(false);
+		}
+		else if (quote?.tasks) {
 			setTotal(quote.tasks.reduce((total, task) => {
 				return total += task.labourCost + task.items.reduce((subtotal, line) => {
 					return subtotal += (line.cost * line.quantity);
@@ -15,6 +18,9 @@ const QuoteView = ({ quote, setUser }) => {
 			}, 0));
 		}
 	}, [quote]);
+
+	const editQuote = (event) => setEditSelected(true);
+	const cancelEditQuote = (event) => setEditSelected(false);
 
 	const deleteQuote = (event) => {
 		const confirmed = window.confirm(`You are about to delete quote ${quote.name}, is that correct?`);
@@ -27,7 +33,7 @@ const QuoteView = ({ quote, setUser }) => {
 		);
 	};
 
-	if (!quote._id) {
+	if (!quote?._id) {
 		return (
 		<div className="quote-view">
 			<p className="quote-view__empty">No Quote Selected</p>
@@ -42,12 +48,13 @@ const QuoteView = ({ quote, setUser }) => {
 				<p className="quote-view__total">Total: £{total.toFixed(2)}</p>
 			</header>
 			<div className="quote-view__tasks">
-				{quote.tasks && quote.tasks.map((task, index) => <TaskView key={(task.name || "") + index} task={task} index={index} newQuote={false} />)}
-				{(!quote.tasks || quote.tasks.length === 0) && <p className="quote-view__tasks-empty">No Tasks</p>}
+				{quote?.tasks && quote.tasks.map((task, index) => <TaskView key={(task.name || "") + index} task={task} index={index} newQuote={false} />)}
+				{(!quote?.tasks || quote?.tasks?.length === 0) && <p className="quote-view__tasks-empty">No Tasks</p>}
 			</div>
 			<div className="quote-view__buttons">
-				<button className="quote-view__edit">Edit Quote</button>
-				<button className="quote-view__delete" onClick={deleteQuote} data-id={quote._id}>Delete Quote</button>
+				{!editSelected && <button className="quote-view__edit" onClick={editQuote}>Edit Quote</button>}
+				{editSelected && <button className="quote-view__cancel" onClick={cancelEditQuote}>Cancel Edit Quote</button>}
+				<button className="quote-view__delete" onClick={deleteQuote} data-id={quote?._id}>Delete Quote</button>
 			</div>
 		</div>
 	);

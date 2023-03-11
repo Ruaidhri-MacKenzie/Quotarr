@@ -8,6 +8,7 @@ import "./Home.css";
 const Home = ({ user, setUser }) => {
 	const [selectedQuote, setSelectedQuote] = useState(null);
 	const [roles, setRoles] = useState([]);
+	const [editSelected, setEditSelected] = useState(false);
 
 	useEffect(() => {
 		httpGet("http://localhost:2000/roles",
@@ -20,8 +21,8 @@ const Home = ({ user, setUser }) => {
 		<div className="home">
 			<h2 className="home__title">Home</h2>
 			<QuoteList quotes={user.quotes} selected={selectedQuote} setSelected={setSelectedQuote} />
-			<QuoteView quote={selectedQuote || {}} setUser={setUser} />
-			<QuoteForm roles={roles} setUser={setUser} setSelected={setSelectedQuote}/>
+			<QuoteView quote={selectedQuote} setUser={setUser} editSelected={editSelected} setEditSelected={setEditSelected} />
+			<QuoteForm quote={selectedQuote} edit={editSelected} roles={roles} setUser={setUser} setSelected={setSelectedQuote}/>
 		</div>
 	);
 };
