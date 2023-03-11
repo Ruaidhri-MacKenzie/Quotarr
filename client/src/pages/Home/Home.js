@@ -5,7 +5,7 @@ import QuoteForm from "../../components/QuoteForm/QuoteForm.js";
 import { httpGet } from "../../utils/http.js";
 import "./Home.css";
 
-const Home = ({ user }) => {
+const Home = ({ user, setUser }) => {
 	const [selectedQuote, setSelectedQuote] = useState(null);
 	const [roles, setRoles] = useState([]);
 
@@ -21,7 +21,7 @@ const Home = ({ user }) => {
 			<h2 className="home__title">Home</h2>
 			<QuoteList quotes={user.quotes} selected={selectedQuote} setSelected={setSelectedQuote} />
 			<QuoteView quote={selectedQuote || {}} />
-			<QuoteForm roles={roles} />
+			<QuoteForm roles={roles} setUser={setUser} />
 		</div>
 	);
 };

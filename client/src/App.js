@@ -28,7 +28,7 @@ const App = () => {
 			<Header title="Quotarr" signOut={signOut} />
 			<main className="main">
 				{!user && <Auth setUser={setUser} />}
-				{user && <Home user={user} />}
+				{user && <Home user={user} setUser={setUser} />}
 			</main>
 			<Footer author="Ruaidhri MacKenzie" year="2023" />
     </div>

@@ -4,7 +4,7 @@ import TaskView from "../TaskView/TaskView.js";
 import { httpPost } from "../../utils/http";
 import "./QuoteForm.css";
 
-const QuoteForm = ({ roles }) => {
+const QuoteForm = ({ roles, setUser }) => {
 	const [name, setName] = useState("");
 	const [tasks, setTasks] = useState([]);
 	const [showNewTask, setShowNewTask] = useState(false);
@@ -19,6 +19,7 @@ const QuoteForm = ({ roles }) => {
 				setName("");
 				setTasks([]);
 				setShowNewTask(false);
+				setUser(current => ({ ...current, quotes: [...current.quotes, result.quote] }));
 			},
 			(error) => console.log(error)
 			);
