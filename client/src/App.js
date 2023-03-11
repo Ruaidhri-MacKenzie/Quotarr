@@ -25,7 +25,7 @@ const App = () => {
 
 	return (
     <div className="App">
-			<Header title="Quotarr" signOut={signOut} />
+			<Header title="Quotarr" admin={user?.admin} signOut={signOut} />
 			<main className="main">
 				{!user && <Auth setUser={setUser} />}
 				{user && <Home user={user} setUser={setUser} />}
