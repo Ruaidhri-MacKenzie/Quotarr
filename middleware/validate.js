@@ -53,3 +53,14 @@ export const validateQuote = (req, res, next) => {
 		next();
 	}
 };
+
+export const checkUniqueRoleName = async (req, res, next) => {
+	const name = req.body.name;
+	const roleExists = await User.findOne({ name }).exec();
+	if (roleExists) {
+		res.status(400).json({ error: "Role already exists with that name" });
+	}
+	else {
+		next();
+	}
+};
