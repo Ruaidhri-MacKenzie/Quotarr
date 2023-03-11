@@ -13,7 +13,7 @@ export const isNotAuth = (req, res, next) => {
 export const isAdmin = (req, res, next) => {
 	// Check if user is an admin
 	if (!req.isAuthenticated()) res.status(401).json({ error: "Authentication failed" });
-	else if (req.user.admin) res.status(403).json({ error: "Authorisation failed" });
+	else if (!req.user.admin) res.status(403).json({ error: "Authorisation failed" });
 	else next();
 };
 
