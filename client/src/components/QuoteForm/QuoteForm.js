@@ -47,7 +47,7 @@ const QuoteForm = ({ quote, edit, roles, setUser, setSelected }) => {
 
 	return (
 		<form className="quote-form" onSubmit={handleSubmit}>
-			<h2 className="quote-form__title">{quote ? "Edit Quote" : "New Quote"}</h2>
+			<h2 className="quote-form__title">{edit ? "Edit Quote" : "New Quote"}</h2>
 			
 			<label className="quote-form__name">
 				<p className="quote-form__name-label">Quote Name</p>
