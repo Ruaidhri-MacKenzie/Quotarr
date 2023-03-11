@@ -10,32 +10,25 @@ const App = () => {
 	const [user, setUser] = useState(null);
 
 	const signOut = () => {
-		httpGet(
-			"http://localhost:2000/auth/signout",
+		httpGet("http://localhost:2000/auth/signout",
 			(result) => setUser(null),
 			(error) => console.log(error),
 		);
 	};
 
 	useEffect(() => {
-		httpGet(
-			"http://localhost:2000/auth", 
+		httpGet("http://localhost:2000/auth", 
 			(result) => setUser(result.user),
 			(error) => console.log(error),
 		);
 	}, []);
-	
-	const renderMainView = () => {
-		return user
-			? <Home user={user} />
-			: <Auth setUser={setUser} />;
-	};
 
 	return (
     <div className="App">
 			<Header title="Quotarr" signOut={signOut} />
 			<main className="main">
-				{renderMainView()}
+				{!user && <Auth setUser={setUser} />}
+				{user && <Home user={user} />}
 			</main>
 			<Footer author="Ruaidhri MacKenzie" year="2023" />
     </div>
