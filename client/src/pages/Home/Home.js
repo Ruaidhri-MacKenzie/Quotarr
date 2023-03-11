@@ -13,7 +13,7 @@ const Home = ({ user, setUser }) => {
 	useEffect(() => {
 		httpGet("/roles",
 			(result) => setRoles(result.roles),
-			(error) => console.log(error)
+			(error) => console.log(error),
 		);
 	}, []);
 
@@ -21,7 +21,7 @@ const Home = ({ user, setUser }) => {
 		<div className="home">
 			<h2 className="home__title">Home</h2>
 			<QuoteList quotes={user.quotes} selected={selectedQuote} setSelected={setSelectedQuote} />
-			<QuoteView quote={selectedQuote} setUser={setUser} editSelected={editSelected} setEditSelected={setEditSelected} />
+			<QuoteView quote={selectedQuote} setUser={setUser} setSelected={setSelectedQuote} editSelected={editSelected} setEditSelected={setEditSelected} />
 			<QuoteForm quote={selectedQuote} edit={editSelected} roles={roles} setUser={setUser} setSelected={setSelectedQuote}/>
 		</div>
 	);
