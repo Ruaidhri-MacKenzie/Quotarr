@@ -1,4 +1,6 @@
 .home {
+	max-width: 1024px;
+	margin-inline: auto;
 	display: grid;
 	gap: 1em;
 	padding: 1em;
