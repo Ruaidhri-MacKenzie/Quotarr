@@ -46,6 +46,9 @@ export const validateQuote = (req, res, next) => {
 	else if (!tasks || !tasks.length) {
 		res.status(400).json({ error: "Must include at least one task" });
 	}
+	else if (tasks.reduce((total, task) => total += (task.labour.length + task.items.length), 0) === 0) {
+		res.status(400).json({ error: "Must include at least one line" });
+	}
 	else {
 		next();
 	}
