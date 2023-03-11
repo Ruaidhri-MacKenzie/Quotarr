@@ -2,7 +2,7 @@ import "./QuoteList.css";
 
 const QuoteItem = ({ quote, index, selected, setSelected }) => {
 	const selectQuote = (event) => {
-		setSelected(current => (current?.name === quote.name) ? null : quote);
+		setSelected(current => (current?._id === quote._id) ? null : quote);
 	};
 	
 	return (
