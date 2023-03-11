@@ -4,17 +4,24 @@ import TaskView from "../TaskView/TaskView.js";
 import { httpPost } from "../../utils/http";
 import "./QuoteForm.css";
 
-const QuoteForm = ({ roles, onSuccess }) => {
+const QuoteForm = ({ roles }) => {
 	const [name, setName] = useState("");
 	const [tasks, setTasks] = useState([]);
 	const [showNewTask, setShowNewTask] = useState(false);
 
-	const onError = (error) => console.log(error);
 	const handleChangeName = (event) => setName(event.target.value);
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
-		httpPost("http://localhost:2000/quotes", { name, tasks }, onSuccess, onError);
+		httpPost("http://localhost:2000/quotes",
+			{ name, tasks },
+			(result) => {
+				setName("");
+				setTasks([]);
+				setShowNewTask(false);
+			},
+			(error) => console.log(error)
+			);
 	};
 
 	const removeTask = (event) => {
