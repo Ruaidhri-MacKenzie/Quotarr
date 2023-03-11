@@ -26,7 +26,7 @@ const QuoteView = ({ quote }) => {
 	return (
 		<div className="quote-view">
 			<header className="quote-view__header">
-				<h2 className="quote-view__name">{quote?.name || "Quote"}</h2>
+				<h2 className="quote-view__name">Quote: {quote?.name || "Quote"}</h2>
 				<p className="quote-view__total">Total: £{total.toFixed(2)}</p>
 			</header>
 			<div className="quote-view__tasks">

@@ -6,7 +6,9 @@ const QuoteItem = ({ quote, index, selected, setSelected }) => {
 	};
 	
 	return (
-		<li className={"quote-list-item" + ((selected?.name === quote.name) ? " quote-list-item--selected" : "")} tabIndex="0" onClick={selectQuote}>Quote {index + 1}: {quote.name}</li>
+		<li className={"quote-list-item" + ((selected?.name === quote.name) ? " quote-list-item--selected" : "")} tabIndex="0" onClick={selectQuote}>
+			Quote {index + 1}: {quote.name}
+		</li>
 	);
 };
 
