@@ -21,7 +21,7 @@ const Home = ({ user, setUser }) => {
 			<h2 className="home__title">Home</h2>
 			<QuoteList quotes={user.quotes} selected={selectedQuote} setSelected={setSelectedQuote} />
 			<QuoteView quote={selectedQuote || {}} />
-			<QuoteForm roles={roles} setUser={setUser} />
+			<QuoteForm roles={roles} setUser={setUser} setSelected={setSelectedQuote}/>
 		</div>
 	);
 };
