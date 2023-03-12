@@ -1,16 +1,13 @@
 import passport from "passport";
-import User from "../models/user.js";
-import { extractUserData, hashPassword } from "../services/user.service.js";
+import * as userService from "../services/user.service.js";
 
 export const signUp = async (req, res, next) => {
 	const {username, password } = req.body;
-	const hash = await hashPassword(password);
-	const user = await User.create({ username, password: hash });
+	const user = await userService.createUser(username, password);
 	
 	req.login(user, (err) => {
 		if (err) return next(err);
-		const userData = extractUserData(user);
-		return res.status(201).json({ user: userData });
+		return res.status(201).json({ user });
 	});
 };
 
@@ -21,7 +18,7 @@ export const signIn = (req, res, next) => {
 		
 		req.login(user, async (err) => {
 			if (err) return next(err);			
-			const userData = extractUserData(user);
+			const userData = userService.extractUserData(user);
 			return res.status(200).json({ user: userData });
 		});
 	})(req, res, next);
