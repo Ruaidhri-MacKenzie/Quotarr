@@ -8,13 +8,7 @@ import "./App.css";
 
 const App = () => {
 	const [user, setUser] = useState(null);
-
-	const signOut = () => {
-		httpGet("/auth/signout",
-			(result) => setUser(null),
-			(error) => console.log(error),
-		);
-	};
+	const [showAdmin, setShowAdmin] = useState(null);
 
 	useEffect(() => {
 		httpGet("/auth", 
@@ -22,13 +16,24 @@ const App = () => {
 			(error) => console.log(error),
 		);
 	}, []);
+	
+	const signOut = () => {
+		httpGet("/auth/signout",
+			(result) => setUser(null),
+			(error) => console.log(error),
+		);
+	};
+
+	const renderPage = () => {
+		if (user) return <Home user={user} setUser={setUser} showAdmin={showAdmin} />;
+		else return <Auth setUser={setUser} />;
+	};
 
 	return (
     <div className="App">
-			<Header title="Quotarr" admin={user?.admin} signOut={signOut} />
+			<Header title="Quotarr" admin={user?.admin} showAdmin={showAdmin} setShowAdmin={setShowAdmin} signOut={signOut} />
 			<main className="main">
-				{!user && <Auth setUser={setUser} />}
-				{user && <Home user={user} setUser={setUser} />}
+				{renderPage()}
 			</main>
 			<Footer author="Ruaidhri MacKenzie" year="2023" />
     </div>

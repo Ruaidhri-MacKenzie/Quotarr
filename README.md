@@ -48,5 +48,5 @@ Production server is connected to production database. Client is built into stat
 ### Would:
 -	~~Incorporate sub-tasks for the project quote and give intermediate figures for those~~
 -	~~Combine quotes~~
--	Allow an administrator to make changes to the pre-set pay grades
--	Allow an administrator to calculate a quote without the fudge factor
+-	~~Allow an administrator to make changes to the pre-set pay grades~~
+-	~~Allow an administrator to calculate a quote without the fudge factor~~

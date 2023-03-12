@@ -4,10 +4,14 @@ import TaskView from "../TaskView/TaskView.js";
 import { httpPost, httpPut } from "../../utils/http.js";
 import "./QuoteForm.css";
 
-const QuoteForm = ({ quote, edit, setEdit, roles, setUser, setSelected }) => {
+const QuoteForm = ({ quote, edit, setEdit, roles, setUser, setSelected, admin }) => {
 	const [name, setName] = useState("");
 	const [tasks, setTasks] = useState([]);
 	const [showNewTask, setShowNewTask] = useState(false);
+
+	const title = admin
+		? edit ? "Edit Exact Quote" : "New Exact Quote"
+		: edit ? "Edit Quote" : "New Quote";
 
 	useEffect(() => {
 		if (edit && quote) {
@@ -39,7 +43,12 @@ const QuoteForm = ({ quote, edit, setEdit, roles, setUser, setSelected }) => {
 			httpPut(`/quotes/${quote._id}`, { name, tasks }, handleSuccess, handleError);
 		}
 		else {
-			httpPost("/quotes", { name, tasks }, handleSuccess, handleError);
+			if (admin) {
+				httpPost("/quotes/raw", { name, tasks }, handleSuccess, handleError);
+			}
+			else {
+				httpPost("/quotes", { name, tasks }, handleSuccess, handleError);
+			}
 		}
 	};
 
@@ -50,7 +59,7 @@ const QuoteForm = ({ quote, edit, setEdit, roles, setUser, setSelected }) => {
 
 	return (
 		<form className="quote-form" onSubmit={handleSubmit}>
-			<h2 className="quote-form__title">{edit ? "Edit Quote" : "New Quote"}</h2>
+			<h2 className="quote-form__title">{title}</h2>
 			
 			<label className="quote-form__name">
 				<p className="quote-form__name-label">Quote Name</p>

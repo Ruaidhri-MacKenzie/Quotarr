@@ -2,7 +2,7 @@ import { useState } from "react";
 import { httpPost } from "../../utils/http";
 import "./QuoteCombine.css";
 
-const QuoteCombine = ({ quotes, setUser, setSelected }) => {
+const QuoteCombine = ({ quotes, setUser, setSelected, admin }) => {
 	const [state, setState] = useState({});
 
 	const handleChange = (event) => {
@@ -19,12 +19,17 @@ const QuoteCombine = ({ quotes, setUser, setSelected }) => {
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
-		httpPost("/quotes/combine", state, handleSuccess, handleError);
+		if (admin) {
+			httpPost("/quotes/raw/combine", state, handleSuccess, handleError);
+		}
+		else {
+			httpPost("/quotes/combine", state, handleSuccess, handleError);
+		}
 	};
 
 	return (
 		<form className="quote-combine" onSubmit={handleSubmit}>
-			<h2 className="quote-combine__title">Combine Quotes</h2>
+			<h2 className="quote-combine__title">{admin ? "Combine Exact Quotes" : "Combine Quotes"}</h2>
 
 			<label className="quote-combine__name">
 				<p className="quote-combine__label">Combined Quote Name</p>
@@ -40,7 +45,7 @@ const QuoteCombine = ({ quotes, setUser, setSelected }) => {
 				{quotes.map((quote, index) => <option key={(quote._id || "") + index} value={quote._id}>{quote.name}</option>)}
 			</select>
 
-			<button className="quote-combine__submit" type="submit">Combine Quotes</button>
+			<button className="quote-combine__submit" type="submit" disabled={(!state.name || !state.first || !state.second)}>Combine Quotes</button>
 		</form>
 	);
 };
