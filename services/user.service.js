@@ -32,3 +32,35 @@ export const getQuoteOwnerId = async (quoteId) => {
 	const { _id } = await User.findOne({ quotes: quoteId }).select("_id").exec();
 	return _id;
 };
+
+export const listUsers = async () => {
+	const users = await User.find().select(userSelectString).populate("quotes").exec();
+	return users;
+};
+
+export const createUser = async (username, password) => {
+	// Hash password for storage in database
+	const hash = await hashPassword(password);
+
+	// Create user and extract data to plain object
+	const user = await User.create({ username, password: hash });
+	const userData = extractUserData(user);
+
+	return userData;
+};
+
+export const readUser = async (id) => {
+	const user = await User.findById(id).select(userSelectString).populate("quotes").exec();
+	return user;
+};
+
+export const updateUser = async (id, data) => {
+	const user = await User.findOneAndUpdate({ _id: id }, { $set: data }, { new: true }).select(userSelectString).populate("quotes").exec();
+	return user;
+};
+
+export const deleteUser = async (id) => {
+	const result = await User.deleteOne({ _id: id }).exec();
+	if (result.deletedCount) return true;
+	else return false;
+};
