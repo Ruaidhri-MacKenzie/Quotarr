@@ -2,29 +2,29 @@ import Role from "../models/role.js";
 
 export const quoteSelectString = "_id name tasks timeCreated";
 
-export const calculateRawLabourCost = async (task) => {
-	const roles = await Role.find().select("_id name rate").exec();
-	let labourCost = 0;
-	task.labour.forEach(line => {
-		const role = roles.find(role => role.name === line.name);
-		const rate = role?.rate || 0;
-		labourCost += line.hours * rate;
-	});
-	task.labourCost = labourCost;
-	return task;
-};
-
 export const calculateLabourCost = async (task) => {
 	const roles = await Role.find().select("_id name rate").exec();
+
 	let labourCost = 0;
 	task.labour.forEach(line => {
-		const role = roles.find(role => role.name === line.name);
+		const role = roles.find(role => role.name === line.role);
 		const rate = role?.rate || 0;
 		const fudgeFactor = Math.random() + 0.55;
 		labourCost += line.hours * rate * fudgeFactor;
 	});
-	task.labourCost = labourCost;
-	return task;
+
+	return labourCost;
+};
+
+export const calculateRawLabourCost = async (task) => {
+	const roles = await Role.find().select("_id name rate").exec();
+	let labourCost = 0;
+	task.labour.forEach(line => {
+		const role = roles.find(role => role.name === line.role);
+		const rate = role?.rate || 0;
+		labourCost += line.hours * rate;
+	});
+	return labourCost;
 };
 
 export const extractQuoteData = (quote) => {

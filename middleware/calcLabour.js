@@ -1,13 +1,21 @@
 import { calculateLabourCost, calculateRawLabourCost } from "../services/quote.service.js";
 
-export const calcLabour = (req, res, next) => {
+export const calcLabour = async (req, res, next) => {
 	// Calculate labour costs with fudge factor
-	req.body.tasks?.forEach(calculateLabourCost);
+	const taskCount = req.body.tasks?.length || 0;
+	for (let i = 0; i < taskCount; i++) {
+		const labourCost = await calculateLabourCost(req.body.tasks[i]);
+		req.body.tasks[i].labourCost = labourCost;
+	}
 	next();
 };
 
-export const calcRawLabour = (req, res, next) => {
+export const calcRawLabour = async (req, res, next) => {
 	// Calculate labour costs without fudge factor
-	req.body.tasks?.forEach(calculateRawLabourCost);
+	const taskCount = req.body.tasks?.length || 0;
+	for (let i = 0; i < taskCount; i++) {
+		const labourCost = await calculateRawLabourCost(req.body.tasks[i]);
+		req.body.tasks[i].labourCost = labourCost;
+	}
 	next();
 };
