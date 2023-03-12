@@ -1,11 +1,11 @@
 import Quote from "../models/quote.js";
-import Role from "../models/role.js";
+import * as roleService from "./role.service.js";
 import * as userService from "./user.service.js";
 
 export const quoteSelectString = "_id name tasks timeCreated";
 
 export const calculateLabourCost = async (task) => {
-	const roles = await Role.find().select("_id name rate").exec();
+	const roles = await roleService.listRoles();
 
 	let labourCost = 0;
 	task.labour.forEach(line => {
@@ -19,7 +19,7 @@ export const calculateLabourCost = async (task) => {
 };
 
 export const calculateRawLabourCost = async (task) => {
-	const roles = await Role.find().select("_id name rate").exec();
+	const roles = await roleService.listRoles();
 	let labourCost = 0;
 	task.labour.forEach(line => {
 		const role = roles.find(role => role.name === line.role);
