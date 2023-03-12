@@ -4,7 +4,7 @@ import TaskView from "../TaskView/TaskView.js";
 import { httpPost, httpPut } from "../../utils/http.js";
 import "./QuoteForm.css";
 
-const QuoteForm = ({ quote, edit, roles, setUser, setSelected }) => {
+const QuoteForm = ({ quote, edit, setEdit, roles, setUser, setSelected }) => {
 	const [name, setName] = useState("");
 	const [tasks, setTasks] = useState([]);
 	const [showNewTask, setShowNewTask] = useState(false);
@@ -22,21 +22,32 @@ const QuoteForm = ({ quote, edit, roles, setUser, setSelected }) => {
 
 	const handleChangeName = (event) => setName(event.target.value);
 
-	const onSuccess = (result) => {
+	const handleSuccessCreate = (result) => {
 		setName("");
 		setTasks([]);
 		setShowNewTask(false);
 		setUser(current => ({ ...current, quotes: [...current.quotes, result.quote] }));
 		setSelected(result.quote);
 	};
-	const onError = (error) => console.log(error);
+	
+	const handleSuccessEdit = (result) => {
+		quote.name = name;
+		quote.tasks = tasks;
+		setUser(current => ({ ...current }));
+		setName("");
+		setTasks([]);
+		setShowNewTask(false);
+		setEdit(false);
+	};
+
+	const handleError = (error) => console.log(error);
 	const handleSubmit = (event) => {
 		event.preventDefault();
 		if (quote) {
-			httpPut(`/quotes/${quote._id}`, { name, tasks }, onSuccess, onError);
+			httpPut(`/quotes/${quote._id}`, { name, tasks }, handleSuccessEdit, handleError);
 		}
 		else {
-			httpPost("/quotes", { name, tasks }, onSuccess, onError);
+			httpPost("/quotes", { name, tasks }, handleSuccessCreate, handleError);
 		}
 	};
 
