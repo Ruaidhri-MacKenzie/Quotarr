@@ -1,10 +1,8 @@
-import Quote from "../models/quote.js";
-import { quoteSelectString, extractQuoteData } from "../services/quote.service.js";
-import { addQuoteToUser, removeQuoteFromUser } from "../services/user.service.js";
+import * as quoteService from "../services/quote.service.js";
 
 export const listQuotes = async (req, res) => {
 	try {
-		const quotes = await Quote.find().select(quoteSelectString).exec();
+		const quotes = await quoteService.listQuotes();
 		res.status(200).json({ quotes });
 	}
 	catch (error) {
@@ -15,16 +13,8 @@ export const listQuotes = async (req, res) => {
 
 export const createQuote = async (req, res) => {
 	try {
-		const { name, tasks } = req.body;
-
-		// Create quote and extract data to plain object
-		const quote = await Quote.create({ name, tasks });
-		const quoteData = extractQuoteData(quote);
-
-		// Add quote id to user quotes
-		await addQuoteToUser(req.user._id, quoteData._id);
-
-		res.status(201).json({ quote: quoteData });
+		const quote = await quoteService.createQuote(req.user._id, req.body);
+		res.status(201).json({ quote });
 	}
 	catch (error) {
 		console.log(error);
@@ -34,14 +24,9 @@ export const createQuote = async (req, res) => {
 
 export const readQuote = async (req, res) => {
 	try {
-		const id = req.params.id;
-		const quote = await Quote.findById(id).select(quoteSelectString).exec();
-		if (quote) {
-			res.status(200).json({ quote });
-		}
-		else {
-			res.status(404).json({ error: "Quote not found" });
-		}
+		const quote = await quoteService.readQuote(req.params.id);
+		if (quote) res.status(200).json({ quote });
+		else res.status(404).json({ error: "Quote not found" });
 	}
 	catch (error) {
 		console.log(error);
@@ -51,15 +36,9 @@ export const readQuote = async (req, res) => {
 
 export const updateQuote = async (req, res) => {
 	try {
-		const id = req.params.id;
-		const data = req.body;
-		const quote = await Quote.findOneAndUpdate({ _id: id }, { $set: data }, { new: true }).select(quoteSelectString).exec();
-		if (quote) {
-			res.status(200).json({ quote });
-		}
-		else {
-			res.status(404).json({ error: "Quote not found" });
-		}
+		const quote = await quoteService.updateQuote(req.params.id, req.body);
+		if (quote) res.status(200).json({ quote });
+		else res.status(404).json({ error: "Quote not found" });
 	}
 	catch (error) {
 		console.log(error);
@@ -67,17 +46,11 @@ export const updateQuote = async (req, res) => {
 	}
 };
 
-export const removeQuote = async (req, res) => {
+export const deleteQuote = async (req, res) => {
 	try {
-		const id = req.params.id;
-		const result = await Quote.deleteOne({ _id: id }).exec();
-		if (result.deletedCount) {
-			await removeQuoteFromUser(req.user._id, id);
-			res.status(200).json({ success: true });
-		}
-		else {
-			res.status(404).json({ error: "Quote not found" });
-		}
+		const success = quoteService.deleteQuote(req.params.id);
+		if (success) res.status(200).json({ success });
+		else res.status(404).json({ error: "Quote not found" });
 	}
 	catch (error) {
 		console.log(error);

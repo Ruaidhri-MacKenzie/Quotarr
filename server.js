@@ -6,8 +6,7 @@ import connectSession from "connect-mongodb-session";
 import passport from "passport";
 import cors from "cors";
 
-import { localStrategy } from "./middleware/passport.js";
-import { serializeUser, deserializeUser } from "./services/user.service.js";
+import { localStrategy, serializeUser, deserializeUser } from "./middleware/passport.js";
 
 import authRouter from "./routes/auth.router.js";
 import userRouter from "./routes/user.router.js";

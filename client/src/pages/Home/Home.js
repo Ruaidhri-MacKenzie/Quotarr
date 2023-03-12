@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import QuoteList from "../../components/QuoteList/QuoteList.js";
 import QuoteView from "../../components/QuoteView/QuoteView.js";
 import QuoteForm from "../../components/QuoteForm/QuoteForm.js";
+import QuoteCombine from "../../components/QuoteCombine/QuoteCombine.js";
 import { httpGet } from "../../utils/http.js";
 import "./Home.css";
 
@@ -23,6 +24,7 @@ const Home = ({ user, setUser }) => {
 			<QuoteList quotes={user.quotes} selected={selectedQuote} setSelected={setSelectedQuote} />
 			<QuoteView quote={selectedQuote} setUser={setUser} setSelected={setSelectedQuote} editSelected={editSelected} setEditSelected={setEditSelected} />
 			<QuoteForm quote={selectedQuote} edit={editSelected} setEdit={setEditSelected} roles={roles} setUser={setUser} setSelected={setSelectedQuote}/>
+			<QuoteCombine quotes={user.quotes} setUser={setUser} setSelected={setSelectedQuote} />
 		</div>
 	);
 };

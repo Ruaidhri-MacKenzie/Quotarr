@@ -1,6 +1,7 @@
 import { Strategy } from "passport-local";
 import bcrypt from "bcrypt";
 import User from "../models/user.js";
+import { userSelectString } from "../services/user.service.js";
 
 export const localStrategy = new Strategy(async (username, password, done) => {
 	try {
@@ -23,3 +24,14 @@ export const localStrategy = new Strategy(async (username, password, done) => {
 		done(error);
 	}
 });
+
+export const serializeUser = (user, done) => done(null, user._id);
+export const deserializeUser = async (id, done) => {
+	try {
+		const user = await User.findById(id).select(userSelectString).populate("quotes").exec();
+		done(null, user);
+	}
+	catch (error) {
+		done(error);
+	}
+};

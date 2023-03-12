@@ -54,6 +54,23 @@ export const validateQuote = (req, res, next) => {
 	}
 };
 
+export const validateCombineQuotes = (req, res, next) => {
+	const { name, first, second } = req.body;
+
+	if (!name) {
+		res.status(400).json({ error: "Must include a quote name" });
+	}
+	else if (name.length > 30) {
+		res.status(400).json({ error: "Quote name must be at most 30 characters" });
+	}
+	else if (!first || !second) {
+		res.status(400).json({ error: "Must include the quotes to be combined" });
+	}
+	else {
+		next();
+	}
+};
+
 export const checkUniqueRoleName = async (req, res, next) => {
 	const name = req.body.name;
 	const roleExists = await User.findOne({ name }).exec();

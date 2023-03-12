@@ -1,0 +1,25 @@
+.quote-combine {
+	display: grid;
+	align-content: start;
+	gap: 1em;
+	padding: 1em 1.5em 1.5em;
+	box-shadow: 0px 2px 8px hsl(0 0% 39% / 0.2);
+}
+
+.quote-combine__input {
+	font-weight: bold;
+	padding: 0.25em;
+	background-color: white;
+}
+
+.quote-combine__select {
+	width: fit-content;
+	padding: 0.25em;
+	cursor: pointer;
+}
+
+.quote-combine__submit {
+	width: fit-content;
+	padding: 0.25em 0.5em;
+	cursor: pointer;
+}
