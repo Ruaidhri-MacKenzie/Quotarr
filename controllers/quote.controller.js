@@ -53,7 +53,7 @@ export const updateQuote = async (req, res) => {
 	try {
 		const id = req.params.id;
 		const data = req.body;
-		const quote = await Quote.findOneAndUpdate({ _id: id }, { $set: data }).select(quoteSelectString).exec();
+		const quote = await Quote.findOneAndUpdate({ _id: id }, { $set: data }, { new: true }).select(quoteSelectString).exec();
 		if (quote) {
 			res.status(200).json({ quote });
 		}

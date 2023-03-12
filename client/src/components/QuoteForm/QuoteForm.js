@@ -22,32 +22,24 @@ const QuoteForm = ({ quote, edit, setEdit, roles, setUser, setSelected }) => {
 
 	const handleChangeName = (event) => setName(event.target.value);
 
-	const handleSuccessCreate = (result) => {
+	const handleSuccess = (result) => {
 		setName("");
 		setTasks([]);
 		setShowNewTask(false);
+		if (quote) setUser(current => ({ ...current, quotes: current.quotes.filter(q => q._id !== quote._id)}));
 		setUser(current => ({ ...current, quotes: [...current.quotes, result.quote] }));
 		setSelected(result.quote);
+		if (edit) setEdit(false);
 	};
 	
-	const handleSuccessEdit = (result) => {
-		quote.name = name;
-		quote.tasks = tasks;
-		setUser(current => ({ ...current }));
-		setName("");
-		setTasks([]);
-		setShowNewTask(false);
-		setEdit(false);
-	};
-
 	const handleError = (error) => console.log(error);
 	const handleSubmit = (event) => {
 		event.preventDefault();
 		if (quote) {
-			httpPut(`/quotes/${quote._id}`, { name, tasks }, handleSuccessEdit, handleError);
+			httpPut(`/quotes/${quote._id}`, { name, tasks }, handleSuccess, handleError);
 		}
 		else {
-			httpPost("/quotes", { name, tasks }, handleSuccessCreate, handleError);
+			httpPost("/quotes", { name, tasks }, handleSuccess, handleError);
 		}
 	};
 

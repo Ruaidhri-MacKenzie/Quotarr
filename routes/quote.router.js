@@ -9,8 +9,9 @@ const router = express.Router();
 router.get("/", isAdmin, listQuotes);
 router.post("/", isAuth, validateQuote, calcLabour, createQuote);
 router.post("/raw", isAdmin, validateQuote, calcRawLabour, createQuote);
+router.put("/raw/:id", isAdmin, validateQuote, calcRawLabour, updateQuote);
 router.get("/:id", isAuth, isQuoteOwner, readQuote);
-router.put("/:id", isAuth, isQuoteOwner, updateQuote);
+router.put("/:id", isAuth, isQuoteOwner, validateQuote, calcLabour, updateQuote);
 router.delete("/:id", isAuth, isQuoteOwner, removeQuote);
 
 export default router;
