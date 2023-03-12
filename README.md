@@ -40,7 +40,7 @@ Production server is connected to production database. Client is built into stat
 -	~~Allow users to save and delete quotes. This should use a database.~~
 
 ### Could:
--	Allow users to change existing quotes
+-	~~Allow users to change existing quotes~~
 -	~~Have additional (dynamic) functionality for adding non-human resources to the calculation~~
 -	~~Have different pay grades for selection (e.g. “subject expert”, “casual worker”)~~
 -	~~Keep the hourly (or daily) rates private from users (i.e. users should not be able to directly see a worker’s hourly rate, and the “fudge factor” should stop them from easily reverse-engineering the cost)~~
