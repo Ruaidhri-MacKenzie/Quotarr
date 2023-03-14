@@ -1,12 +1,23 @@
-.task-view {
-}
-
 .task-view__header {
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: space-between;
 	align-items: center;
 	gap: 1em;
+	user-select: none;
+	cursor: pointer;
+	position: relative;
+}
+
+.task-view__header::before {
+	content: ">";
+	font-weight: bold;
+	position: absolute;
+	left: -1em;
+}
+
+.task-view[open] .task-view__header::before {
+	transform: rotate(90deg);
 }
 
 .task-view__name {

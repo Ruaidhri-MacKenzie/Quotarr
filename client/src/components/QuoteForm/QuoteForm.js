@@ -66,9 +66,9 @@ const QuoteForm = ({ quote, edit, setEdit, roles, setUser, setSelected, admin })
 				<input className="quote-form__name-input" type="text" name="name" value={name || ""} onChange={handleChangeName} />
 			</label>
 
-			<ul className="quote-form__tasks">
+			{tasks.length > 0 && (<ul className="quote-form__tasks">
 				{tasks && tasks.map((task, index) => <TaskView key={(task.name || "") + index} task={task} index={index} newQuote={true} removeTask={removeTask} />)}
-			</ul>
+			</ul>)}
 
 			{showNewTask && <TaskInput roles={roles} setTasks={setTasks} close={(event) => setShowNewTask(false)} />}
 			{!showNewTask && <button className="quote-form__new-task" onClick={(event) => setShowNewTask(true)}>New Task</button>}

@@ -6,12 +6,12 @@ const TaskView = ({ task, index, newQuote, removeTask }) => {
 	const total = (!newQuote) ? task.labourCost + task.items.reduce((acc, cur) => acc += (cur.cost * cur.quantity), 0) : 0;
 
 	return (
-		<div className="task-view">
-			<header className="task-view__header">
+		<details className="task-view" open={true}>
+			<summary className="task-view__header">
 				<h3 className="task-view__name">Task {index + 1}: {task.name}</h3>
 				{newQuote && <button className="task-view__remove" data-index={index} onClick={removeTask}>&times;</button>}
 				{!newQuote && <p className="task-view__subtotal">Subtotal: £{total.toFixed(2)}</p>}
-			</header>
+			</summary>
 			<LabourList labour={task.labour} />
 			{!newQuote && (
 				<div className="task-view__labour">
@@ -20,7 +20,7 @@ const TaskView = ({ task, index, newQuote, removeTask }) => {
 				</div>
 			)}
 			<ItemsList items={task.items} />
-		</div>
+		</details>
 	);
 };
 

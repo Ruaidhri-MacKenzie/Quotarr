@@ -18,7 +18,7 @@
 
 .quote-view__tasks {
 	display: grid;
-	gap: 2em;
+	gap: 1em;
 	padding: 1em;
 }
 

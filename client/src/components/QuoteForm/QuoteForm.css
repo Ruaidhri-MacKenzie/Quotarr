@@ -16,7 +16,7 @@
 .quote-form__tasks {
 	justify-self: normal;
 	display: grid;
-	gap: 2em;
+	padding: 1em;
 }
 
 .quote-form__new-task {
