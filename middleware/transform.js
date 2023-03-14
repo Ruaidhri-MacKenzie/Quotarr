@@ -4,8 +4,10 @@ export const calcLabour = async (req, res, next) => {
 	// Calculate labour costs with fudge factor
 	const taskCount = req.body.tasks?.length || 0;
 	for (let i = 0; i < taskCount; i++) {
-		const labourCost = await quoteService.calculateLabourCost(req.body.tasks[i]);
-		req.body.tasks[i].labourCost = labourCost;
+		if (!req.body.tasks[i].labourCost && req.body.tasks[i].labour.length > 0) {
+			const labourCost = await quoteService.calculateLabourCost(req.body.tasks[i]);
+			req.body.tasks[i].labourCost = labourCost;
+		}
 	}
 	next();
 };
