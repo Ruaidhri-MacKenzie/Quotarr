@@ -17,7 +17,7 @@ export const signIn = (req, res, next) => {
 		if (!user) return res.redirect("/auth/failed/auth");
 		
 		req.login(user, async (err) => {
-			if (err) return next(err);			
+			if (err) return next(err);
 			const userData = userService.extractUserData(user);
 			return res.status(200).json({ user: userData });
 		});
@@ -36,5 +36,6 @@ export const signOut = (req, res, next) => {
 };
 
 export const cookieSignIn = (req, res) => {
-	res.status(200).json({ user: req.user });
+	const user = userService.extractUserData(req.user);
+	res.status(200).json({ user });
 };

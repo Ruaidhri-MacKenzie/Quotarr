@@ -8,7 +8,7 @@ export const localStrategy = new Strategy(async (username, password, done) => {
 		if (!username) return done(null, false, { message: "Username is required" });
 		if (!password) return done(null, false, { message: "Password is required" });
 
-		const user = await User.findOne({ username }).exec();
+		const user = await User.findOne({ username }).populate("quotes").exec();
 		if (!user) {
 			return done(null, false, { message: "Invalid username or password" });
 		}
