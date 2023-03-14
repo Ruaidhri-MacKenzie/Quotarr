@@ -31,15 +31,8 @@ const RoleInput = ({ roles, setRoles }) => {
 	const [selectedRole, setSelectedRole] = useState(null);
 
 	useEffect(() => {
-		if (selectedRole) {
-			setState({
-				name: selectedRole.name,
-				rate: selectedRole.rate,
-			});
-		}
-		else {
-			setState({});
-		}
+		if (selectedRole) setState({ name: selectedRole.name, rate: selectedRole.rate });
+		else setState({});
 	}, [selectedRole]);
 
 	const handleChange = (event) => {
@@ -47,6 +40,7 @@ const RoleInput = ({ roles, setRoles }) => {
 	};
 
 	const handleSuccess = (result) => {
+		setRoles(current => current.filter(role => role._id !== result.role._id));
 		setRoles(current => [...current, result.role]);
 		setState({});
 		setSelectedRole(result.role);

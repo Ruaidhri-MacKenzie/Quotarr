@@ -13,10 +13,8 @@ export const listRoles = async (req, res) => {
 
 export const createRole = async (req, res) => {
 	try {
-		const { name, rate } = req.body;
-
 		// Create role and extract data to plain object
-		const role = roleService.createRole({ name, rate });
+		const role = await roleService.createRole(req.body);
 		res.status(201).json({ role });
 	}
 	catch (error) {

@@ -30,7 +30,7 @@ export const readRole = async (id) => {
 };
 
 export const updateRole = async (id, data) => {
-	const role = await Role.findOneAndUpdate({ _id: id }, { $set: data }).select(roleSelectString).exec();
+	const role = await Role.findOneAndUpdate({ _id: id }, { $set: data }, { new: true }).select(roleSelectString).exec();
 	return role;
 };
 
