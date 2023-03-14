@@ -43,7 +43,7 @@ const QuoteView = ({ quote, setUser, setSelected, editSelected, setEditSelected 
 	}
 
 	return (
-		<div className="quote-view">
+		<section className="quote-view">
 			<header className="quote-view__header">
 				<h2 className="quote-view__name">Quote: {quote?.name || ""}</h2>
 				<p className="quote-view__total">Total: £{total.toFixed(2)}</p>
@@ -57,7 +57,7 @@ const QuoteView = ({ quote, setUser, setSelected, editSelected, setEditSelected 
 				{editSelected && <button className="quote-view__button" onClick={cancelEditQuote}>Cancel Edit Quote</button>}
 				<button className="quote-view__button" onClick={deleteQuote} data-id={quote?._id}>Delete Quote</button>
 			</div>
-		</div>
+		</section>
 	);
 };
 

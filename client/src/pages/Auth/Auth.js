@@ -7,13 +7,13 @@ const Auth = ({ setUser }) => {
 	};
 
 	return (
-		<div className="auth">
+		<main className="auth">
 			<h2 className="auth__title">Auth</h2>
 			<div className="auth__forms">
 				<AuthForm isSignUp={false} onSuccess={signIn} />
 				<AuthForm isSignUp={true} onSuccess={signIn} />
 			</div>
-		</div>
+		</main>
 	);
 };
 

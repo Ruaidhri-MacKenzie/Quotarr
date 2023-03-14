@@ -59,7 +59,7 @@ const RoleInput = ({ roles, setRoles }) => {
 	};
 
 	return (
-		<div className="role-input">
+		<section className="role-input">
 			<h2 className="role-input__title">Role Editor</h2>
 			<ul className="role-input__list">
 				{roles.map(role => <RoleItem key={role._id} role={role} setRoles={setRoles} selected={selectedRole} setSelected={setSelectedRole} />)}
@@ -76,7 +76,7 @@ const RoleInput = ({ roles, setRoles }) => {
 				</label>
 				<button className="role-input__submit" type="submit" disabled={!state.name || !state.rate}>{selectedRole ? "Edit Role" : "Add Role"}</button>
 			</form>
-		</div>
+		</section>
 	);
 };
 

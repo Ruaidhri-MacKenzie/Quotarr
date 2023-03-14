@@ -32,9 +32,7 @@ const App = () => {
 	return (
     <div className="App">
 			<Header title="Quotarr" admin={user?.admin} showAdmin={showAdmin} setShowAdmin={setShowAdmin} signOut={signOut} />
-			<main className="main">
-				{renderPage()}
-			</main>
+			{renderPage()}
 			<Footer author="Ruaidhri MacKenzie" year="2023" />
     </div>
   );
