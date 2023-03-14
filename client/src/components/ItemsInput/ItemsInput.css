@@ -30,6 +30,10 @@
 	cursor: pointer;
 }
 
+.items-input__submit:disabled {
+	cursor: not-allowed;
+}
+
 @media screen and (min-width: 800px) {
 	.items-input__form {
 		flex-direction: row;

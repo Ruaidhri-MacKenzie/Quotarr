@@ -73,7 +73,7 @@ const QuoteForm = ({ quote, edit, setEdit, roles, setUser, setSelected, admin })
 			{showNewTask && <TaskInput roles={roles} setTasks={setTasks} close={(event) => setShowNewTask(false)} />}
 			{!showNewTask && <button className="quote-form__new-task" onClick={(event) => setShowNewTask(true)}>New Task</button>}
 
-			{<button className="quote-form__submit" type="submit" disabled={(showNewTask || !name.length || !tasks.length || tasks.reduce((total, task) => total += (task.labour?.length + task.items?.length), 0) === 0)}>{quote ? "Update Quote" : "Create Quote"}</button>}
+			{<button className="quote-form__submit" type="submit" disabled={(showNewTask || !name.length || !tasks.length || tasks.reduce((total, task) => total += task.labour?.length, 0) === 0)}>{(edit && quote) ? "Update Quote" : "Create Quote"}</button>}
 		</form>
 	);
 };

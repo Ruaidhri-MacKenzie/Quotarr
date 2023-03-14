@@ -3,7 +3,8 @@ import ItemsList from "../ItemsList/ItemsList.js";
 import "./ItemsInput.css";
 
 const ItemsInput = ({ items, setItems }) => {
-	const [state, setState] = useState({});
+	const initialState = { name: "", cost: 0, quantity: 1 };
+	const [state, setState] = useState(initialState);
 
 	const handleInputChange = (event) => {
 		setState(current => ({ ...current, [event.target.name]: event.target.value }));
@@ -11,12 +12,12 @@ const ItemsInput = ({ items, setItems }) => {
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
-		setItems(current => [...current, {
-			name: state.name,
-			cost: Number(state.cost),
-			quantity: Number(state.quantity),
-		}]);
-		setState({});
+		const name = state.name;
+		const cost = Number(state.cost);
+		const quantity = Number(state.quantity);
+
+		setItems(current => [...current, { name, cost, quantity }]);
+		setState(initialState);
 	};
 
 	return (
@@ -33,15 +34,15 @@ const ItemsInput = ({ items, setItems }) => {
 
 				<label className="items-input__cost">
 					<p className="items-input__cost-label">Cost</p>
-					<input className="items-input__cost-input" type="number" step={0.01} max={99999.99} name="cost" value={state.cost || 0} onChange={handleInputChange} />
+					<input className="items-input__cost-input" type="number" step={0.01} min={0} max={99999.99} name="cost" value={state.cost || 0} onChange={handleInputChange} />
 				</label>
 
 				<label className="items-input__quantity">
 					<p className="items-input__quantity-label">Quantity</p>
-					<input className="items-input__quantity-input" type="number" name="quantity" value={state.quantity || 0} onChange={handleInputChange} />
+					<input className="items-input__quantity-input" type="number" min={1} name="quantity" value={state.quantity || 0} onChange={handleInputChange} />
 				</label>
 
-				<button className="items-input__submit" type="submit" onClick={handleSubmit}>Add Line</button>
+				<button className="items-input__submit" type="submit" onClick={handleSubmit} disabled={!state.name || !state.cost || state.cost < 0 || !state.quantity || state.quantity <= 0}>Add Line</button>
 			</div>
 		</div>
 	);
