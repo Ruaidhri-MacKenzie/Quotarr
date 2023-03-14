@@ -3,9 +3,15 @@
 	margin-inline: auto;
 	display: grid;
 	gap: 1em;
-	padding: 1em;
+	padding-block: 1em;
 }
 
 .home__title {
 	text-align: center;
+}
+
+@media screen and (min-width: 420px) {
+	.home {
+		padding: 1em;
+	}
 }

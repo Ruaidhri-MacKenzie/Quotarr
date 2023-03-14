@@ -1,4 +1,5 @@
 .task-input {
+	justify-self: normal;
 	display: grid;
 	gap: 1em;
 	padding: 0 1em 1.5em;

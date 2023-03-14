@@ -1,5 +1,6 @@
 .quote-combine {
 	display: grid;
+	justify-items: center;
 	align-content: start;
 	gap: 1em;
 	padding: 1em 1.5em 1.5em;

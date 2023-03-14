@@ -5,7 +5,8 @@
 .labour-input__form {
 	display: flex;
 	flex-wrap: wrap;
-	align-items: flex-end;
+	flex-direction: column;
+	justify-content: center;
 	gap: 1em;
 	padding: 1em;
 	background-color: hsl(0 0% 95%);
@@ -25,4 +26,11 @@
 	width: fit-content;
 	padding: 0.25em 0.5em;
 	cursor: pointer;
+}
+
+@media screen and (min-width: 800px) {
+	.labour-input__form {
+		flex-direction: row;
+		align-items: flex-end;
+	}
 }

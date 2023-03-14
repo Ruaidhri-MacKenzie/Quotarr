@@ -14,10 +14,14 @@ const QuoteItem = ({ quote, index, selected, setSelected }) => {
 
 const QuoteList = ({ quotes, selected, setSelected }) => {
 	return (
-		<ul className="quote-list">
-			{quotes && quotes.map((quote, index) => <QuoteItem key={(quote.name || "") + index} quote={quote} index={index} selected={selected} setSelected={setSelected} />)}
-			{(!quotes || !quotes.length) && <li className="quote-list__empty">No Quotes</li>}
-		</ul>
+		<div className="quote-list">
+			<h2 className="quote-list__title">Quote List</h2>
+
+			<ul className="quote-list__list">
+				{quotes && quotes.map((quote, index) => <QuoteItem key={(quote.name || "") + index} quote={quote} index={index} selected={selected} setSelected={setSelected} />)}
+				{(!quotes || !quotes.length) && <li className="quote-list__empty">No Quotes</li>}
+			</ul>
+		</div>
 	);
 };
 

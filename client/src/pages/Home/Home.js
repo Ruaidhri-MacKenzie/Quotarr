@@ -21,7 +21,7 @@ const Home = ({ user, setUser, showAdmin }) => {
 
 	return (
 		<div className="home">
-			<h2 className="home__title">Home</h2>
+			<h2 className="home__title">{showAdmin ? "Admin" : "Home"}</h2>
 			<QuoteList quotes={user.quotes} selected={selectedQuote} setSelected={setSelectedQuote} />
 			<QuoteView quote={selectedQuote} setUser={setUser} setSelected={setSelectedQuote} editSelected={editSelected} setEditSelected={setEditSelected} />
 			<QuoteForm quote={selectedQuote} edit={editSelected} setEdit={setEditSelected} roles={roles} setUser={setUser} setSelected={setSelectedQuote} admin={showAdmin} />
