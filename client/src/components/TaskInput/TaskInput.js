@@ -37,7 +37,7 @@ const TaskInput = ({ roles, setTasks, close }) => {
 
 			<ItemsInput items={items} setItems={setItems} />
 
-			<button className="task-input__submit" type="submit" onClick={handleSubmit}>Add Task</button>
+			<button className="task-input__submit" type="submit" onClick={handleSubmit} disabled={labour.length === 0 && items.length === 0}>Add Task</button>
 		</div>
 	);
 };

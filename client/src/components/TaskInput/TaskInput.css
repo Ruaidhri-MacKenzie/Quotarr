@@ -42,3 +42,7 @@
 	padding: 0.25em 0.5em;
 	cursor: pointer;
 }
+
+.task-input__submit:disabled {
+	cursor: not-allowed;
+}

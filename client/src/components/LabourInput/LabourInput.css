@@ -28,6 +28,10 @@
 	cursor: pointer;
 }
 
+.labour-input__submit:disabled {
+	cursor: not-allowed;
+}
+
 @media screen and (min-width: 800px) {
 	.labour-input__form {
 		flex-direction: row;
