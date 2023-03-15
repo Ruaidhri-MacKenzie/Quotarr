@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 import User from "../models/user.js";
 
-export const userSelectString = "_id username admin quotes timeCreated";
+export const userSelectString = "_id username admin quotes createdAt updatedAt";
 
 export const hashPassword = async (password) => {
 	// Hash password for storage in database
@@ -16,7 +16,8 @@ export const extractUserData = (user) => {
 		username: user.username,
 		admin: user.admin,
 		quotes: user.quotes,
-		timeCreated: user.timeCreated,
+		createdAt: user.createdAt,
+		updatedAt: user.updatedAt,
 	};
 };
 
@@ -39,13 +40,9 @@ export const listUsers = async () => {
 };
 
 export const createUser = async (username, password) => {
-	// Hash password for storage in database
-	const hash = await hashPassword(password);
-
-	// Create user and extract data to plain object
-	const user = await User.create({ username, password: hash });
+	// Create user with hashed password and extract data to plain object
+	const user = await User.create({ username, password });
 	const userData = extractUserData(user);
-
 	return userData;
 };
 
