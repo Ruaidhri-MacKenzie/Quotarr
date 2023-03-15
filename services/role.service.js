@@ -1,13 +1,14 @@
 import Role from "../models/role.js";
 
-const roleSelectString = "_id name rate timeCreated";
+const roleSelectString = "_id name rate createdAt updatedAt";
 
 export const extractRoleData = (role) => {
 	return {
 		_id: role._id,
 		name: role.name,
 		rate: role.rate,
-		timeCreated: role.timeCreated,
+		createdAt: role.createdAt,
+		updatedAt: role.updatedAt,
 	};
 }
 

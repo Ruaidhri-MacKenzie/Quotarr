@@ -2,7 +2,7 @@ import Quote from "../models/quote.js";
 import * as roleService from "./role.service.js";
 import * as userService from "./user.service.js";
 
-export const quoteSelectString = "_id name tasks timeCreated";
+export const quoteSelectString = "_id name tasks createdAt updatedAt";
 
 export const calculateLabourCost = async (task) => {
 	const roles = await roleService.listRoles();
@@ -34,7 +34,8 @@ export const extractQuoteData = (quote) => {
 		_id: quote._id,
 		name: quote.name,
 		tasks: quote.tasks,
-		timeCreated: quote.timeCreated,
+		createdAt: quote.createdAt,
+		updatedAt: quote.updatedAt,
 	};
 };
 

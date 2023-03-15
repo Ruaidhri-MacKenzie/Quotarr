@@ -16,7 +16,8 @@ const QuoteSchema = new mongoose.Schema({
 			quantity: { type: Number, default: 1, min: 1 },
 		}],
 	}],
-	timeCreated: { type: Date, default: Date.now, immutable: true },
+	createdAt: { type: Date, default: Date.now, immutable: true },
+	updatedAt: { type: Date, default: Date.now },
 });
 
 export default mongoose.model("Quote", QuoteSchema);
