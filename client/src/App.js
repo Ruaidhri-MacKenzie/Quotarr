@@ -31,7 +31,7 @@ const App = () => {
 
 	return (
     <div className="App">
-			<Header title="Quotarr" admin={user?.admin} showAdmin={showAdmin} setShowAdmin={setShowAdmin} signOut={signOut} />
+			<Header title="Quotarr" user={user} showAdmin={showAdmin} setShowAdmin={setShowAdmin} signOut={signOut} />
 			{renderPage()}
 			<Footer author="Ruaidhri MacKenzie" year="2023" />
     </div>

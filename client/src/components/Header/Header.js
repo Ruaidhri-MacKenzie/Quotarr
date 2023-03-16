@@ -1,14 +1,14 @@
 import React from "react";
 import "./Header.css";
 
-const Header = ({ title, admin, showAdmin, setShowAdmin, signOut }) => {
-	const handleClickAdmin = (event) => setShowAdmin(current => !current);
+const Header = ({ title, user, showAdmin, setShowAdmin, signOut }) => {
+	const toggleShowAdmin = (event) => setShowAdmin(current => !current);
 
 	return (
 		<header className="header">
 			<h1 className="header__title">{title}</h1>
-			{admin && <button className="header__admin" onClick={handleClickAdmin}>{showAdmin ? "Home" : "Admin"}</button>}
-			<button className="header__sign-out" onClick={signOut}>Sign Out</button>
+			{user?.admin && <button className="header__admin" onClick={toggleShowAdmin}>{showAdmin ? "Home" : "Admin"}</button>}
+			{user && <button className="header__sign-out" onClick={signOut}>Sign Out</button>}
 		</header>
 	);
 };
