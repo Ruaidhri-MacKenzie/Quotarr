@@ -1,0 +1,19 @@
+@keyframes fadeIn {
+	0% { opacity: 0; }
+	100% { opacity: 1; }
+}
+
+.error {
+	padding: 0.5em;
+	border-radius: 10px;
+	border: 2px solid red;
+	background-color: white;
+	cursor: pointer;
+	animation: fadeIn 350ms ease-in;
+}
+
+.error__message {
+	font-weight: bold;
+	text-align: center;
+	color: red;
+}

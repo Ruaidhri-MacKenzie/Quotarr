@@ -1,17 +1,14 @@
 import AuthForm from "../../components/AuthForm/AuthForm.js";
 import "./Auth.css";
 
-const Auth = ({ setUser }) => {
-	const signIn = (result) => {
-		setUser(result.user);
-	};
-
+const Auth = ({ signIn }) => {
 	return (
 		<main className="auth">
-			<h2 className="auth__title">Auth</h2>
+			<h2 className="auth__title">Welcome to Quotarr</h2>
+			<p className="auth__info">Blah blah blah blah blah blah blah blah blah</p>
 			<div className="auth__forms">
-				<AuthForm isSignUp={false} onSuccess={signIn} />
-				<AuthForm isSignUp={true} onSuccess={signIn} />
+				<AuthForm isSignUp={false} signIn={signIn} />
+				<AuthForm isSignUp={true} signIn={signIn} />
 			</div>
 		</main>
 	);

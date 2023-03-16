@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import TaskInput from "../TaskInput/TaskInput.js";
 import TaskView from "../TaskView/TaskView.js";
+import Error from "../Error/Error.js";
 import { httpPost, httpPut } from "../../utils/http.js";
 import "./QuoteForm.css";
 
@@ -8,6 +9,8 @@ const QuoteForm = ({ quote, edit, setEdit, roles, setUser, setSelected, admin })
 	const [name, setName] = useState("");
 	const [tasks, setTasks] = useState([]);
 	const [showNewTask, setShowNewTask] = useState(false);
+	const [error, setError] = useState("");
+	const resetError = () => setError("");
 
 	const title = admin
 		? edit ? "Edit Exact Quote" : "New Exact Quote"
@@ -37,6 +40,7 @@ const QuoteForm = ({ quote, edit, setEdit, roles, setUser, setSelected, admin })
 	};
 	
 	const handleError = (error) => console.log(error);
+
 	const handleSubmit = (event) => {
 		event.preventDefault();
 		if (quote) {
@@ -73,6 +77,7 @@ const QuoteForm = ({ quote, edit, setEdit, roles, setUser, setSelected, admin })
 			{showNewTask && <TaskInput roles={roles} setTasks={setTasks} close={(event) => setShowNewTask(false)} />}
 			{!showNewTask && <button className="quote-form__new-task" onClick={(event) => setShowNewTask(true)}>New Task</button>}
 
+			{error && <Error error={error} resetError={resetError} />}
 			{<button className="quote-form__submit" type="submit" disabled={(showNewTask || !name.length || !tasks.length || tasks.reduce((total, task) => total += task.labour?.length, 0) === 0)}>{(edit && quote) ? "Update Quote" : "Create Quote"}</button>}
 		</form>
 	);

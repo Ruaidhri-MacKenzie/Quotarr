@@ -13,10 +13,11 @@ const App = () => {
 	useEffect(() => {
 		httpGet("/auth", 
 			(result) => setUser(result.user),
-			(error) => console.log(error),
+			(error) => console.log("Not signed in"),
 		);
 	}, []);
-	
+
+	const signIn = (result) => setUser(result.user);
 	const signOut = () => {
 		httpGet("/auth/signout",
 			(result) => setUser(null),
@@ -26,7 +27,7 @@ const App = () => {
 
 	const renderPage = () => {
 		if (user) return <Home user={user} setUser={setUser} showAdmin={showAdmin} />;
-		else return <Auth setUser={setUser} />;
+		else return <Auth signIn={signIn} />;
 	};
 
 	return (

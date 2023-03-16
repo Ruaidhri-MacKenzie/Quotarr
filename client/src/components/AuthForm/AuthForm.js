@@ -1,11 +1,13 @@
+import { useState } from "react";
 import useForm from "../../hooks/useForm.js";
 import { httpPost } from "../../utils/http.js";
+import Error from "../Error/Error.js";
 import "./AuthForm.css";
 
-const AuthForm = ({ isSignUp, onSuccess }) => {
-	const onError = (error) => {
-		console.log(error);
-	};
+const AuthForm = ({ isSignUp, signIn }) => {
+	const [error, setError] = useState("");
+	const handleError = (error) => setError(error);
+	const resetError = () => setError("");
 
 	const onSubmit = () => {
 		if (isSignUp && state.password !== state.confirm) {
@@ -14,7 +16,7 @@ const AuthForm = ({ isSignUp, onSuccess }) => {
 		}
 
 		const endpoint = (isSignUp) ? "signup" : "signin";
-		httpPost(`/auth/${endpoint}`, state, onSuccess, onError);
+		httpPost(`/auth/${endpoint}`, state, signIn, handleError);
 	};
 
 	const [state, handleInputChange, handleSubmit] = useForm(onSubmit);
@@ -38,6 +40,7 @@ const AuthForm = ({ isSignUp, onSuccess }) => {
 				<input className="auth-form__input" type="password" name="confirm" value={state.confirm || ""} onChange={handleInputChange} />
 			</label>)}
 
+			{error && <Error error={error} resetError={resetError} />}
 			<button className="auth-form__submit" type="submit">Submit</button>
 		</form>
 	);

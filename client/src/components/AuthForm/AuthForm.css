@@ -14,6 +14,10 @@
 	padding: 0.25em;
 }
 
+.auth-form__input-container {
+	margin-inline: auto;
+}
+
 .auth-form__submit {
 	width: fit-content;
 	justify-self: center;
