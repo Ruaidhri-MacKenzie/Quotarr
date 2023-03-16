@@ -23,7 +23,7 @@ npm start
 Development server is connected to testing database. Client development server allows for live preview.
 
 ### Production 
-Production server is connected to production database. Client is built into static resources. Requires a valid SSL certificate as requests must be made with HTTPS.
+Production server is connected to production database. Client is built into static resources. Requires a valid SSL certificate as secure cookies must be sent via HTTPS.
 
 
 ## Requirements

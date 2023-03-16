@@ -33,7 +33,7 @@ app.use(express.static(PUBLIC_PATH));
 // Set CORS policy
 const corsOptions = {};
 if (NODE_ENV === "development") {
-	corsOptions.origin = "http://localhost:3000";
+	corsOptions.origin = "http://127.0.0.1:3000";
 	corsOptions.credentials = true;
 }
 app.use(cors(corsOptions));

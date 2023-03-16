@@ -8,10 +8,10 @@
 		"database": "mongod --dbpath ./database",
 		"server": "set NODE_ENV=development && nodemon server.js",
     "client": "npm start --prefix client",
-    "dev": "concurrently \"npm run database\" \"npm run server\" \"npm run client\"",
     "build": "npm run build --prefix client",
     "start": "concurrently \"npm run database\" \"set NODE_ENV=production && node server.js\"",
-		"setup": "npm install --prefix client && npm install && npm run build && npm start"
+		"dev": "concurrently \"npm run database\" \"npm run server\" \"npm run client\"",
+		"setup": "npm install --prefix client && npm install && npm run build && concurrently \"npm run database\" \"npm start\""
   },
   "repository": {
     "type": "git",
