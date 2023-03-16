@@ -39,11 +39,6 @@ export const extractQuoteData = (quote) => {
 	};
 };
 
-export const getQuoteTasks = async (id) => {
-	const { tasks } = await Quote.findById(id).select("tasks").exec();
-	return tasks;
-};
-
 export const listQuotes = async () => {
 	const quotes = await Quote.find().select(quoteSelectString).exec();
 	return quotes;
