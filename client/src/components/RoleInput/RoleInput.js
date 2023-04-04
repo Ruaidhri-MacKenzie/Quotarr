@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { httpDelete, httpPost, httpPut } from "../../utils/http";
+import { httpDelete, httpPost, httpPut } from "../../utils/http.js";
+import { sanitiseRole } from "../../utils/sanitise.js";
 import "./RoleInput.css";
 
 const RoleItem = ({ role, setRoles, selected, setSelected }) => {
@@ -50,11 +51,14 @@ const RoleInput = ({ roles, setRoles }) => {
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
+
+		const sanitisedState = sanitiseRole(state);
+		
 		if (selectedRole) {
-			httpPut(`/roles/${selectedRole._id}`, state, handleSuccess, handleError);
+			httpPut(`/roles/${selectedRole._id}`, sanitisedState, handleSuccess, handleError);
 		}
 		else {
-			httpPost("/roles", state, handleSuccess, handleError);
+			httpPost("/roles", sanitisedState, handleSuccess, handleError);
 		}
 	};
 

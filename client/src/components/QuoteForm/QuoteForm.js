@@ -3,6 +3,7 @@ import TaskInput from "../TaskInput/TaskInput.js";
 import TaskView from "../TaskView/TaskView.js";
 import Error from "../Error/Error.js";
 import { httpPost, httpPut } from "../../utils/http.js";
+import { sanitiseString, sanitiseTasks } from "../../utils/sanitise.js";
 import "./QuoteForm.css";
 
 const QuoteForm = ({ quote, edit, setEdit, roles, setUser, setSelected, admin }) => {
@@ -43,15 +44,19 @@ const QuoteForm = ({ quote, edit, setEdit, roles, setUser, setSelected, admin })
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
+		
+		const sanitisedName = sanitiseString(name);
+		const sanitisedTasks = sanitiseTasks(tasks);
+
 		if (quote) {
-			httpPut(`/quotes/${quote._id}`, { name, tasks }, handleSuccess, handleError);
+			httpPut(`/quotes/${quote._id}`, { name: sanitisedName, tasks: sanitisedTasks }, handleSuccess, handleError);
 		}
 		else {
 			if (admin) {
-				httpPost("/quotes/raw", { name, tasks }, handleSuccess, handleError);
+				httpPost("/quotes/raw", { name: sanitisedName, tasks: sanitisedTasks }, handleSuccess, handleError);
 			}
 			else {
-				httpPost("/quotes", { name, tasks }, handleSuccess, handleError);
+				httpPost("/quotes", { name: sanitisedName, tasks: sanitisedTasks }, handleSuccess, handleError);
 			}
 		}
 	};

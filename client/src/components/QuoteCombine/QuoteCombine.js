@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { httpPost } from "../../utils/http";
+import { httpPost } from "../../utils/http.js";
+import { sanitiseCombine } from "../../utils/sanitise.js";
 import "./QuoteCombine.css";
 
 const QuoteCombine = ({ quotes, setUser, setSelected, admin }) => {
@@ -19,11 +20,14 @@ const QuoteCombine = ({ quotes, setUser, setSelected, admin }) => {
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
+
+		const sanitisedState = sanitiseCombine(state);
+
 		if (admin) {
-			httpPost("/quotes/raw/combine", state, handleSuccess, handleError);
+			httpPost("/quotes/raw/combine", sanitisedState, handleSuccess, handleError);
 		}
 		else {
-			httpPost("/quotes/combine", state, handleSuccess, handleError);
+			httpPost("/quotes/combine", sanitisedState, handleSuccess, handleError);
 		}
 	};
 
