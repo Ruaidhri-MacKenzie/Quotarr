@@ -2,7 +2,6 @@ import User from "../models/user.js";
 
 export const validateCredentials = (req, res, next) => {
 	// Validate sign up and sign in details
-	req.body.username = req.body.username?.trim();
 	const { username, password } = req.body;
 
 	if (!username || username.length < 3) {
@@ -65,6 +64,23 @@ export const validateCombineQuotes = (req, res, next) => {
 	}
 	else if (!first || !second) {
 		res.status(400).json({ error: "Must include the quotes to be combined" });
+	}
+	else {
+		next();
+	}
+};
+
+export const validateRole = (req, res, next) => {
+	const { name, rate } = req.body;
+
+	if (!name || name.length < 3) {
+		res.status(400).json({ error: "Name must be at least 3 characters" });
+	}
+	else if (name.length > 20) {
+		res.status(400).json({ error: "Name must be at most 20 characters" });
+	}
+	else if (!rate || isNaN(rate) || rate < 0) {
+		res.status(400).json({ error: "Rate must be a positive number" });
 	}
 	else {
 		next();
