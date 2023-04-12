@@ -1,11 +1,14 @@
 import { useState, useEffect } from "react";
 import TaskView from "../TaskView/TaskView";
 import { httpDelete } from "../../utils/http.js";
+import Error from "../Error/Error.js";
 import "./QuoteView.css";
 
 const QuoteView = ({ quote, setUser, setSelected, editSelected, setEditSelected }) => {
 	const [total, setTotal] = useState(0);
-	
+	const [error, setError] = useState("");
+	const resetError = () => setError("");
+
 	useEffect(() => {
 		if (!quote) {
 			setEditSelected(false);
@@ -19,9 +22,11 @@ const QuoteView = ({ quote, setUser, setSelected, editSelected, setEditSelected 
 		}
 	}, [quote, setEditSelected]);
 
+	// Toggle edit/create quote
 	const editQuote = (event) => setEditSelected(true);
 	const cancelEditQuote = (event) => setEditSelected(false);
 
+	// Delete a quote owned by the user
 	const deleteQuote = (event) => {
 		const confirmed = window.confirm(`You are about to delete quote ${quote.name}, is that correct?`);
 		if (!confirmed) return;
@@ -30,10 +35,11 @@ const QuoteView = ({ quote, setUser, setSelected, editSelected, setEditSelected 
 				setUser(current => ({ ...current, quotes: current.quotes.filter(quote => quote._id !== event.target.dataset.id)}));
 				setSelected(null);
 			},
-			(error) => console.log(error),
+			(error) => setError(error),
 		);
 	};
 
+	// Render - If no quote is selected display message instead of list
 	if (!quote?._id) {
 		return (
 		<div className="quote-view">
@@ -42,6 +48,7 @@ const QuoteView = ({ quote, setUser, setSelected, editSelected, setEditSelected 
 		);
 	}
 
+	// Render - Display details of selected quote
 	return (
 		<section className="quote-view">
 			<header className="quote-view__header">
@@ -57,6 +64,7 @@ const QuoteView = ({ quote, setUser, setSelected, editSelected, setEditSelected 
 				{editSelected && <button className="quote-view__button" onClick={cancelEditQuote}>Cancel Edit Quote</button>}
 				<button className="quote-view__button" onClick={deleteQuote} data-id={quote?._id}>Delete Quote</button>
 			</div>
+			{error && <Error error={error} resetError={resetError} />}
 		</section>
 	);
 };

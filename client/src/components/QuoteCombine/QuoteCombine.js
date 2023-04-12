@@ -1,10 +1,15 @@
 import { useState } from "react";
 import { httpPost } from "../../utils/http.js";
+import { validateCombine } from "../../utils/validate.js";
 import { sanitiseCombine } from "../../utils/sanitise.js";
+import Error from "../Error/Error.js";
 import "./QuoteCombine.css";
 
 const QuoteCombine = ({ quotes, setUser, setSelected, admin }) => {
 	const [state, setState] = useState({});
+	const [error, setError] = useState("");
+	const handleError = (error) => setError(error);
+	const resetError = () => setError("");
 
 	const handleChange = (event) => {
 		setState(current => ({ ...current, [event.target.name]: event.target.value }));
@@ -16,11 +21,17 @@ const QuoteCombine = ({ quotes, setUser, setSelected, admin }) => {
 		setState({});
 	};
 
-	const handleError = (error) => console.log(error);
-
 	const handleSubmit = (event) => {
 		event.preventDefault();
 
+		// Validate combine quote - name and two quote ids
+		const validationError = validateCombine(state);
+		if (validationError) {
+			setError(validationError);
+			return;
+		}
+
+		// Sanitise inputs to protect against XSS attacks
 		const sanitisedState = sanitiseCombine(state);
 
 		if (admin) {
@@ -49,6 +60,7 @@ const QuoteCombine = ({ quotes, setUser, setSelected, admin }) => {
 				{quotes.map((quote, index) => <option key={(quote._id || "") + index} value={quote._id}>{quote.name}</option>)}
 			</select>
 
+			{error && <Error error={error} resetError={resetError} />}
 			<button className="quote-combine__submit" type="submit" disabled={(!state.name || !state.first || !state.second)}>Combine Quotes</button>
 		</form>
 	);

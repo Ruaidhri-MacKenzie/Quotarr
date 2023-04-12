@@ -21,6 +21,11 @@ export const extractUserData = (user) => {
 	};
 };
 
+export const checkUsernameExists = async (username) => {
+	const usernameExists = await User.findOne({ username }).exec();
+	return !!usernameExists;
+};
+
 export const addQuoteToUser = async (userId, quoteId) => {
 	await User.findOneAndUpdate({ _id: userId }, { $push: { quotes: quoteId } }).exec();
 };

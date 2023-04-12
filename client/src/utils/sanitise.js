@@ -29,4 +29,5 @@ export const sanitiseCombine = (combine) => {
 	combine.name = sanitiseString(combine.name);
 	combine.first = sanitiseString(combine.first);
 	combine.second = sanitiseString(combine.second);
+	return combine;
 };

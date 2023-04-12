@@ -1,6 +1,7 @@
 import { useState } from "react";
 import useForm from "../../hooks/useForm.js";
 import { httpPost } from "../../utils/http.js";
+import { validateCredentials } from "../../utils/validate.js";
 import { sanitiseString } from "../../utils/sanitise.js";
 import Error from "../Error/Error.js";
 import "./AuthForm.css";
@@ -11,11 +12,13 @@ const AuthForm = ({ isSignUp, signIn }) => {
 	const resetError = () => setError("");
 
 	const onSubmit = () => {
-		if (isSignUp && state.password !== state.confirm) {
-			console.log("Passwords must match");
+		// Validate credentials
+		const validationError = validateCredentials(state, isSignUp);
+		if (validationError) {
+			setError(validationError);
 			return;
 		}
-
+		
 		// Protect against XSS attacks by escaping <> characters
 		for (let key in state) {
 			state[key] = sanitiseString(state[key]);

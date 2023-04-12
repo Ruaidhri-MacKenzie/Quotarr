@@ -1,4 +1,5 @@
-import User from "../models/user.js";
+import { checkUsernameExists } from "../services/user.service.js";
+import { checkRoleNameExists } from "../services/role.service.js";
 
 export const validateCredentials = (req, res, next) => {
 	// Validate sign up and sign in details
@@ -10,11 +11,23 @@ export const validateCredentials = (req, res, next) => {
 	else if (username.length > 20) {
 		res.status(400).json({ error: "Username must be at most 20 characters" });
 	}
-	else if (!password || password.length < 6) {
-		res.status(400).json({ error: "Password must be at least 6 characters" });
+	else if (!password || password.length < 8) {
+		res.status(400).json({ error: "Password must be at least 8 characters" });
 	}
 	else if (password.length > 32) {
 		res.status(400).json({ error: "Password must be at most 32 characters" });
+	}
+	else if (!password.match(/[a-z]/)) {
+		res.status(400).json({ error: "Password must contain at least one lowercase character" });
+	}
+	else if (!password.match(/[A-Z]/)) {
+		res.status(400).json({ error: "Password must contain at least one uppercase character" });
+	}
+	else if (!password.match(/[#?!@$%^&*-]/)) {
+		res.status(400).json({ error: "Password must contain at least one special character: #?!@$%^&*-" });
+	}
+	else if (!password.match(/[0-9]/)) {
+		res.status(400).json({ error: "Password must contain at least one number" });
 	}
 	else {
 		next();
@@ -22,10 +35,9 @@ export const validateCredentials = (req, res, next) => {
 };
 
 export const checkUniqueUsername = async (req, res, next) => {
-	const username = req.body.username;
-	const userExists = await User.findOne({ username }).exec();
+	const userExists = await checkUsernameExists(req.body.username);
 	if (userExists) {
-		res.status(400).json({ error: "Username already exists" });
+		res.status(400).json({ error: "Username already exists, please choose another" });
 	}
 	else {
 		next();
@@ -88,8 +100,7 @@ export const validateRole = (req, res, next) => {
 };
 
 export const checkUniqueRoleName = async (req, res, next) => {
-	const name = req.body.name;
-	const roleExists = await User.findOne({ name }).exec();
+	const roleExists = await checkRoleNameExists(req.body.name);
 	if (roleExists) {
 		res.status(400).json({ error: "Role already exists with that name" });
 	}

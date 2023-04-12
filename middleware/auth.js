@@ -25,6 +25,6 @@ export const isUserOwner = (req, res, next) => {
 
 export const isQuoteOwner = (req, res, next) => {
 	// Check param id is included in user quote ids (or admin)
-	if (req.user.admin || req.user.quotes.some(quote => quote._id === req.params.id)) next();
+	if (req.user.admin || req.user.quotes.some(quote => String(quote._id) === req.params.id)) next();
 	else res.status(403).json({ error: "Authorisation failed" });
 };

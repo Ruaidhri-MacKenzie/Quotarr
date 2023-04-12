@@ -10,7 +10,12 @@ export const extractRoleData = (role) => {
 		createdAt: role.createdAt,
 		updatedAt: role.updatedAt,
 	};
-}
+};
+
+export const checkRoleNameExists = async (name) => {
+	const roleExists = await Role.findOne({ name }).exec();
+	return !!roleExists;
+};
 
 export const listRoles = async (nameOnly) => {
 	const selectString = (nameOnly) ? "_id name" : roleSelectString;

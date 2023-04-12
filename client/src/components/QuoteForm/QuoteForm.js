@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
+import { httpPost, httpPut } from "../../utils/http.js";
+import { validateQuote } from "../../utils/validate.js";
+import { sanitiseString, sanitiseTasks } from "../../utils/sanitise.js";
 import TaskInput from "../TaskInput/TaskInput.js";
 import TaskView from "../TaskView/TaskView.js";
 import Error from "../Error/Error.js";
-import { httpPost, httpPut } from "../../utils/http.js";
-import { sanitiseString, sanitiseTasks } from "../../utils/sanitise.js";
 import "./QuoteForm.css";
 
 const QuoteForm = ({ quote, edit, setEdit, roles, setUser, setSelected, admin }) => {
@@ -40,11 +41,17 @@ const QuoteForm = ({ quote, edit, setEdit, roles, setUser, setSelected, admin })
 		if (edit) setEdit(false);
 	};
 	
-	const handleError = (error) => console.log(error);
+	const handleError = (error) => setError(error);
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
 		
+		const validationError = validateQuote({ name, tasks });
+		if (validationError) {
+			setError(validationError);
+			return;
+		}
+
 		const sanitisedName = sanitiseString(name);
 		const sanitisedTasks = sanitiseTasks(tasks);
 
