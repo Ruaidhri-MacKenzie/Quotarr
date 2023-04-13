@@ -6,10 +6,10 @@
   "type": "module",
   "scripts": {
 		"database": "mongod --dbpath ./database",
-		"server": "SET NODE_ENV=development && nodemon server.js",
+		"server": "NODE_ENV=development && nodemon server.js",
     "client": "npm start --prefix client",
     "build": "npm run build --prefix client",
-    "start": "concurrently \"npm run database\" \"SET NODE_ENV=production && node server.js\"",
+    "start": "concurrently \"npm run database\" \"NODE_ENV=production && node server.js\"",
 		"dev": "concurrently \"npm run database\" \"npm run server\" \"npm run client\"",
 		"setup": "(cd client && npm install) && npm install && npm run build && npm start"
   },
