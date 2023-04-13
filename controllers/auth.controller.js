@@ -14,7 +14,7 @@ export const signUp = async (req, res, next) => {
 export const signIn = (req, res, next) => {
 	passport.authenticate("local", (err, user, info) => {
 		if (err) return next(err);
-		if (!user) return res.redirect("/auth/failed/auth");
+		if (!user) return res.status(400).json({ error: "Unknown username or password" });
 		
 		req.login(user, async (err) => {
 			if (err) return next(err);
