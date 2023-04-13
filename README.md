@@ -2,11 +2,6 @@
 
 ## Scripts
 
-Install npm packages for server and client, build client and start production server
-````
-npm run setup
-````
-
 Start server and client development servers
 ````
 npm run dev
@@ -14,6 +9,7 @@ npm run dev
 
 Build client and start production server
 ````
+npm run build
 npm start
 ````
 
