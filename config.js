@@ -10,7 +10,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 export const PUBLIC_PATH = `${__dirname}/client/build`;
 
-export const PORT = process.env.PORT;
+export const SERVER_PORT = process.env.SERVER_PORT;
 export const SESSION_SECRET = process.env.SESSION_SECRET;
 
 export const MONGO_DB_NAME = (NODE_ENV === "development") ? `${process.env.MONGO_DB_NAME}-testing` : process.env.MONGO_DB_NAME;

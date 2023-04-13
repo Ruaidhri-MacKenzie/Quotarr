@@ -12,7 +12,7 @@ import authRouter from "./routes/auth.router.js";
 import userRouter from "./routes/user.router.js";
 import quoteRouter from "./routes/quote.router.js";
 import roleRouter from "./routes/role.router.js";
-import { PUBLIC_PATH, PORT, NODE_ENV, SESSION_SECRET, MONGO_URI, MONGO_DB_NAME } from "./config.js";
+import { PUBLIC_PATH, SERVER_PORT, NODE_ENV, SESSION_SECRET, MONGO_URI, MONGO_DB_NAME } from "./config.js";
 
 // Log whether the app is running in development or production environment
 console.log(`Environment: ${NODE_ENV}`);
@@ -87,7 +87,7 @@ mongoose.connect(MONGO_URI, { useNewUrlParser: true })
 	console.log(`Database connected: ${MONGO_DB_NAME}`);
 	
 	// Start server listening for requests
-	app.listen(PORT, () => console.log(`Server listening on port ${PORT}...`));
+	app.listen(SERVER_PORT, () => console.log(`Server listening on port ${SERVER_PORT}...`));
 })
 .catch(error => {
 	console.log(error);
