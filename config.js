@@ -4,7 +4,7 @@ import { fileURLToPath } from "url";
 
 dotenv.config();
 
-export const NODE_ENV = process.env.NODE_ENV.trim();
+export const NODE_ENV = process.env.NODE_ENV?.trim();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
