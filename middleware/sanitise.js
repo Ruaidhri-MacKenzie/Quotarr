@@ -1,10 +1,10 @@
 export const sanitiseCredentials = (req, res, next) => {
 	if (req.body.username) {
-		req.body.username = req.body.username?.trim();
-		req.body.username = req.body.username?.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+		req.body.username = req.body.username.trim();
+		req.body.username = req.body.username.replace(/</g, "&lt;").replace(/>/g, "&gt;");
 	}
 	if (req.body.password) {
-		req.body.password = req.body.password?.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+		req.body.password = req.body.password.replace(/</g, "&lt;").replace(/>/g, "&gt;");
 	}
 	next();
 };
