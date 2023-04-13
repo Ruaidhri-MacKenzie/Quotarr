@@ -13,9 +13,12 @@
 	text-align: center;
 }
 
+.header__username {
+	margin-left: auto;
+}
+
 .header__admin {
 	width: fit-content;
-	margin-left: auto;
 	padding: 0.5em 1em;
 	cursor: pointer;
 }
